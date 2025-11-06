@@ -1,0 +1,4 @@
+id="NewTestRect"
+childInstanceId="SimpleRect"
+parent="root"
+components=[group="Transform"~&type="Vec3"~&identifier="translation"~&value="200,200,0"~&canSave="true"~&canEdit="true"~!group="Transform"~&type="Vec2"~&identifier="scale"~&value="50,50"~&canSave="true"~&canEdit="true"~!group="Style"~&type="Vec3"~&identifier="color"~&value="255,0,255"~&canSave="true"~&canEdit="true"~!group="Style"~&type="int"~&identifier="alpha"~&value="255"~&canSave="true"~&canEdit="true"~!group="Style"~&type="String"~&identifier="sprite"~&value="heart.png"~&canSave="true"~&canEdit="true"~!group="Style"~&type="boolean"~&identifier="Use Sprite"~&value="true"~&canSave="true"~&canEdit="true"~!group="Behavior"~&type="boolean"~&identifier="relativeToCamera"~&value="true"~&canSave="true"~&canEdit="true"]

@@ -1,0 +1,2 @@
+name="MyProject1"
+defaultLevel="level1.txt"
