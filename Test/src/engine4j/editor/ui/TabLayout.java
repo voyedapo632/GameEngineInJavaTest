@@ -76,6 +76,34 @@ class RoundedBorder implements Border {
     }
 }
 
+class NewBorder implements Border {
+    private int radius;
+    private Color color;
+
+    NewBorder(int radius, Color color) {
+        this.radius = radius;
+        this.color = color;
+    }
+
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(0, radius-3, 4, radius);
+    }
+
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.setColor(EditorStyle.FOCUS_SELECTION);
+        g.fillRoundRect(x, y, width, height+radius, radius, radius);
+        g.setColor(color);
+        g.fillRoundRect(x + 1, y + 1, width - 2, height+radius, radius, radius);
+    }
+}
+
 public class TabLayout extends TabManager {
     public TabManager mainManager;
     public JPanel mainPanel;
@@ -277,13 +305,13 @@ public class TabLayout extends TabManager {
             btn.setFocusPainted(false);
             
             if (tab.name.startsWith(activeTab) && tab.name.length() == activeTab.length()) {
-                btn.setBorder(new RoundedBorder(10, EditorStyle.BACKGROUND_ACCENT));
+                btn.setBorder(new NewBorder(10, EditorStyle.BACKGROUND_ACCENT));
                 mainPanel.add(tab.panel, BorderLayout.CENTER);
                 tab.panel.setVisible(true);
                 System.out.println(tab.name + " is active!");
             } else {
                 System.out.println(tab.name + " is not active!");
-                btn.setBorder(new RoundedBorder(10, EditorStyle.BACKGROUND_ACCENT_2));
+                btn.setBorder(new NewBorder(10, EditorStyle.BACKGROUND_ACCENT_2));
                 tab.panel.setVisible(false);
             }
 

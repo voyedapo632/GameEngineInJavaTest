@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -63,6 +64,7 @@ import engine4j.editor.ui.EditorStyle;
 import engine4j.editor.ui.TabLayout;
 import engine4j.editor.ui.TabManager;
 import engine4j.editor.ui.TextEditor;
+import engine4j.editor.ui.ToolButton;
 import engine4j.util.ECSComponent;
 import engine4j.util.ECSEntity;
 import engine4j.util.ECSHelper;
@@ -71,7 +73,9 @@ import engine4j.util.SimpleRect;
 import engine4j.util.Vec3;
 import engine4j.Framework;
 import engine4j.util.Vec2;
+
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 class ContentBrowser extends TabLayout {
     JPanel contentBrowserPanel;
@@ -154,13 +158,22 @@ class ContentBrowser extends TabLayout {
         File[] files = dir.listFiles();
 
         mainList.removeAll();
+        int count = 0;
 
         for (int i = files.length  - 1; i >= 0; i--) {
             File file = files[i];
-
+            
             if (file.isDirectory()) {
                 JButton Button = new JButton();
-                Button.setBackground(EditorStyle.BACKGROUND_ACCENT_2);
+                
+                if (count % 2 == 0) {
+                    Button.setBackground(EditorStyle.BACKGROUND_ACCENT_2);
+                } else {
+                    Button.setBackground(EditorStyle.BACKGROUND_ACCENT);
+                }
+
+                count++;
+                
                 Button.setLayout(new BorderLayout());
                 Button.setPreferredSize(new Dimension(25, 25));
 
@@ -207,14 +220,25 @@ class ContentBrowser extends TabLayout {
 
         mainList2.removeAll();
 
+        int count = 0;
+
         for (int i = files.length  - 1; i >= 0; i--) {
             File file = files[i];
 
             {
                 JButton Button = new JButton();
-                Button.setBackground(EditorStyle.BACKGROUND_ACCENT_2);
+                //Button.setBackground(EditorStyle.BACKGROUND_ACCENT_2);
                 Button.setLayout(new BorderLayout());
                 Button.setPreferredSize(new Dimension(25, 25));
+
+                if (count % 2 == 0) {
+                    Button.setBackground(EditorStyle.BACKGROUND_ACCENT_2);
+                } else {
+                    Button.setBackground(EditorStyle.BACKGROUND_ACCENT);
+                }
+
+                count++;
+
                 String icon = "🖿";
 
                 if (!file.isDirectory()) {
@@ -523,10 +547,10 @@ public class Editor extends GameWindow {
     public String currentComponent = "";
     public ECSEntity currentEntity;
     public JLabel modifyAnEntityLabel;
-    public JButton playTestButton;
+    public ToolButton playTestButton;
 
     public Editor(int width, int height, String _projectPath, ProjectBrowser projectBrowserWindow) {
-        super(width, height, "Editor");
+        super(width, height, "Engine4J (Editor)");
         this.projectBrowserWindow = projectBrowserWindow;
         projectPath = _projectPath;
         tabManager = new TabManager();
@@ -658,10 +682,7 @@ public class Editor extends GameWindow {
         toolBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         toolBar.setBackground(EditorStyle.BACKGROUND);
 
-        JButton undoButton = new JButton("<");
-
-        undoButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        undoButton.setForeground(Color.lightGray);
+        ToolButton undoButton = new ToolButton("↩");
         toolBar.add(undoButton);
 
         undoButton.addActionListener(new ActionListener() {
@@ -675,10 +696,8 @@ public class Editor extends GameWindow {
             }
         });
 
-        JButton redoButton = new JButton(">");
+        ToolButton redoButton = new ToolButton("↪");
 
-        redoButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        redoButton.setForeground(Color.lightGray);
         toolBar.add(redoButton);
 
         redoButton.addActionListener(new ActionListener() {
@@ -692,10 +711,8 @@ public class Editor extends GameWindow {
             }
         });
 
-        JButton refreshButton = new JButton("Refresh");
+        ToolButton refreshButton = new ToolButton("↻ Refresh");
 
-        refreshButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        refreshButton.setForeground(Color.lightGray);
         toolBar.add(refreshButton);
 
         refreshButton.addActionListener(new ActionListener() {
@@ -708,10 +725,8 @@ public class Editor extends GameWindow {
             }
         });
 
-        JButton saveButton = new JButton("Save");
+        ToolButton saveButton = new ToolButton("💾 Save");
 
-        saveButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        saveButton.setForeground(Color.lightGray);
         toolBar.add(saveButton);
 
         saveButton.addActionListener(new ActionListener() {
@@ -725,10 +740,9 @@ public class Editor extends GameWindow {
         this.add(toolBar, BorderLayout.NORTH);
 
         // Play test button
-        playTestButton = new JButton("▶︎ Play");
+        playTestButton = new ToolButton("▶︎ Play");
+        playTestButton.setForeground(new Color(165, 225, 120));
 
-        playTestButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        playTestButton.setForeground(Color.lightGray);
         toolBar.add(playTestButton);
 
         playTestButton.addActionListener(new ActionListener() {
@@ -738,11 +752,13 @@ public class Editor extends GameWindow {
                     framework.reloadScripts();
                     framework.contextState = Framework.CONTEXT_GAME;
                     playTestButton.setText("⏹ Stop");
+                    playTestButton.setForeground(new Color(225, 140, 120));
                     framework.saveLevel();
                     terminalEditor.println("~~Game Session Has Started...");
                 } else {
                     framework.contextState = Framework.CONTEXT_EDITOR;
                     playTestButton.setText("▶︎ Play");
+                    playTestButton.setForeground(new Color(165, 225, 120));
                     terminalEditor.println("~~Game Session Has Ended");
                     framework.switchToLevel(defaultLevelName, 25, Color.black);
                 }
@@ -772,7 +788,7 @@ public class Editor extends GameWindow {
         outlinerPanel.setBackground(EditorStyle.BACKGROUND);
         outlinerPanel.setLayout(new BorderLayout());
         TabLayout outliner = new TabLayout(new Dimension(350, 300), tabManager);
-        outliner.addTab(new CustomTab("Outliner", new JLabel("🗗"), outlinerPanel));
+        outliner.addTab(new CustomTab("Outliner", new JLabel("Ψ"), outlinerPanel));
         outliner.dockAt(tabManager, BorderLayout.EAST);
 
         // Properties window
@@ -783,7 +799,7 @@ public class Editor extends GameWindow {
         //propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
         
         properties = new TabLayout(new Dimension(300, 470), tabManager);
-        properties.addTab(new CustomTab("Properties", new JLabel("(!)"), propertiesPanel));
+        properties.addTab(new CustomTab("Properties", new JLabel("𝓲"), propertiesPanel));
         
         JPanel scrollContent = new JPanel();
         
@@ -889,10 +905,7 @@ public class Editor extends GameWindow {
         actorsPanel.setBackground(EditorStyle.BACKGROUND_ACCENT);
 
         // New sprite button
-        JButton newSpriteButton = new JButton("+ New Entity");
-
-        newSpriteButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
-        newSpriteButton.setForeground(Color.lightGray);
+        ToolButton newSpriteButton = new ToolButton("+ New Entity");
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;

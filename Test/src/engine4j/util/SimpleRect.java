@@ -230,6 +230,16 @@ public class SimpleRect extends ECSEntity {
             g.setColor(EditorStyle.FOCUS_SELECTION);
             g.fillRect(screenX - selectionWidth, screenY - selectionWidth, 
                 screenScaleX + selectionWidth * 2, screenScaleY + selectionWidth * 2);
+
+            // X move
+            g.setColor(Color.red);
+            g.fillRect(screenX + screenScaleX + 5, screenY, 
+                80, 5);
+
+            // Y move
+            g.setColor(Color.blue);
+            g.fillRect(screenX + screenScaleX - 5, screenY - 80 - 5, 
+                5, 80);
         }
 
         g.setColor(new Color((int)color.x, (int)color.y, (int)color.z, alpha));

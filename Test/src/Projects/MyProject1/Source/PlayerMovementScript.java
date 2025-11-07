@@ -26,7 +26,7 @@ public class PlayerMovementScript extends BehavioralScript {
     public void onTick() {
         Vec3 pos = (Vec3)parent.components.get(0).getParsedObjectValue();
         Vec3 camera = game.cameraPos;
-        int speed = 10;
+        int speed = 20;
         int camOffsetX = 500;
         int camOffsetY = 300;
 
@@ -81,6 +81,7 @@ public class PlayerMovementScript extends BehavioralScript {
             parent.components.get(0).value = Vec3.serialize(pos);
             game.saveLevel();
         }
+
         System.out.println("DONE");
     }
 

@@ -52,7 +52,7 @@ public class TextEditor extends JPanel {
         toolBar.setBackground(EditorStyle.BACKGROUND_ACCENT);
         toolBar.setPreferredSize(new Dimension(35, 35));
 
-        JButton saveButton = new JButton("Save");
+        ToolButton saveButton = new ToolButton("💾 Save");
         saveButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
         saveButton.setForeground(Color.lightGray);
         toolBar.add(saveButton);
@@ -95,7 +95,7 @@ public class TextEditor extends JPanel {
         toolBar.setBackground(EditorStyle.BACKGROUND_ACCENT);
         toolBar.setPreferredSize(new Dimension(35, 35));
 
-        JButton saveButton = new JButton("Save");
+        ToolButton saveButton = new ToolButton("💾 Save");
         saveButton.setBackground(EditorStyle.BACKGROUND_ACCENT);
         saveButton.setForeground(Color.lightGray);
         toolBar.add(saveButton);
