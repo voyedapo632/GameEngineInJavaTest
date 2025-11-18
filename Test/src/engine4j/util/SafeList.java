@@ -1,7 +1,5 @@
 package engine4j.util;
 
-import java.util.Vector;
-
 public class SafeList<T> {
     private Object[] data;
     private boolean[] checkList;
@@ -41,6 +39,26 @@ public class SafeList<T> {
         }
 
         return null;
+    }
+
+    public int indexOf(T obj) {
+        for (int i = 0; i < localSize; i++) {
+            if (checkList[i] && data[i].equals(obj)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public int lastIndexOf(T obj) {
+        for (int i = localSize; i >= 0; i--) {
+            if (checkList[i] && data[i].equals(obj)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public void set(int index, T value) {
@@ -96,7 +114,7 @@ public class SafeList<T> {
             data[i - 1] = data[i];
         }
 
-        localSize--;
+        resize(localSize - 1);
     }
 
     public void clear() {

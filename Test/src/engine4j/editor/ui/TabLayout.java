@@ -305,13 +305,13 @@ public class TabLayout extends TabManager {
             btn.setFocusPainted(false);
             
             if (tab.name.startsWith(activeTab) && tab.name.length() == activeTab.length()) {
-                btn.setBorder(new NewBorder(10, EditorStyle.BACKGROUND_ACCENT));
+                btn.setBorder(new RoundedBorder(10, EditorStyle.BACKGROUND_ACCENT));
                 mainPanel.add(tab.panel, BorderLayout.CENTER);
                 tab.panel.setVisible(true);
                 System.out.println(tab.name + " is active!");
             } else {
                 System.out.println(tab.name + " is not active!");
-                btn.setBorder(new NewBorder(10, EditorStyle.BACKGROUND_ACCENT_2));
+                btn.setBorder(new RoundedBorder(10, EditorStyle.BACKGROUND_ACCENT_2));
                 tab.panel.setVisible(false);
             }
 

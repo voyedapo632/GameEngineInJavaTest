@@ -1,0 +1,44 @@
+<!-- level1.xml -->
+<!-- Auto generated file -->
+
+<Engine4J>
+    <Head>
+        <Name>level1</Name>
+    </head>
+
+    <Root>
+        <ScriptableEntity id="player" parent="Root" canSave="true" canSelect="true" isVisible="true">
+            <Component type="Transform">
+                <Attribute type="TVector3" id="translation" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+                <Attribute type="TVector3" id="scale" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+                <Attribute type="TVector3" id="rotation" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+            </Component>
+
+            <Component type="RigidBody">
+                <Attribute type="TFloat" id="weight" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TFloat" id="mass" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TFloat" id="health" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TVector3" id="velocity" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+            </Component>
+
+            <GameScript id="rigidBodyScript" src="Project.MyProject1.Source.RigidBodyScript"/>
+        </ScriptableEntity>
+
+        <ScriptableEntity id="zombie" parent="Root" canSave="true" canSelect="true" isVisible="true">
+            <Component type="Transform">
+                <Attribute type="TVector3" id="translation" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+                <Attribute type="TVector3" id="scale" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+                <Attribute type="TVector3" id="rotation" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+            </Component>
+
+            <Component type="RigidBody">
+                <Attribute type="TFloat" id="weight" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TFloat" id="mass" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TFloat" id="health" canSave="true" canEdit="true">0.0</Attribute>
+                <Attribute type="TVector3" id="velocity" canSave="true" canEdit="true">0.0,0.0,0.0</Attribute>
+            </Component>
+
+            <GameScript id="rigidBodyScript" src="Project.MyProject1.Source.RigidBodyScript"/>
+        </ScriptableEntity>
+    </Root>
+</Engine4J>

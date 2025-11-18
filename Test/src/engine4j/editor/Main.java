@@ -1,186 +1,196 @@
 package engine4j.editor;
 
 import java.awt.Dimension;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
-class Vector4 {
-	float x, y, z, w;
+import engine4j.Framework;
+import engine4j.util.SafeList;
 
-	public Vector4(float x, float y, float z, float w) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.w = w;
-	}
+class Vector3 {
+    float x, y, z;
+}
 
-	public Vector4(float x, float y, float z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.w = 0.0f;
-	}
+class Transform {
+    Vector3 position;
+    Vector3 scale;
+    Vector3 rotation;
+}
 
-	public Vector4(float x, float y) {
-		this.x = x;
-		this.y = y;
-		this.z = 0.0f;
-		this.w = 0.0f;
-	}
+class GameScript {
+    GameObject parent;
+    String name;
 
-	public Vector4(float x) {
-		this.x = x;
-		this.y = 0.0f;
-		this.z = 0.0f;
-		this.w = 0.0f;
-	}
+    public void onStart() { }
+    public void onUpdate() { }
+    public void onRenderBegin() { }
+    public void onRenderEnd() { }
+    public void onExit() { }
+    public void onKeyEvent() { }
+    public void onMouseEvent() { }
+    public void onCollided() { }
+}
 
-	public Vector4() {
-		this.x = 0.0f;
-		this.y = 0.0f;
-		this.z = 0.0f;
-		this.w = 0.0f;
-	}
+class Attribute {
+    public String type;
+    public String id;
+    public String group;
+    public boolean canEdit;
+    public boolean canSave;
+    public Object value;
 
-	public static Vector4 add(Vector4 a, Vector4 b) {
-	    return new Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
-	}
-	
-	public static Vector4 sub(Vector4 a, Vector4 b) {
-	    return new Vector4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
-	}
-	
-	public static Vector4 mul(Vector4 a, Vector4 b) {
-	    return new Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
-	}
-	
-	public static Vector4 mul(Vector4 a, Matrix4x4 b) {
-	    return new Vector4(Vector4.dotProduct(a, b.x), Vector4.dotProduct(a, b.y), Vector4.dotProduct(a, b.z), Vector4.dotProduct(a, b.w));
-    }
-	
-	public static Vector4 div(Vector4 a, Vector4 b) {
-	    return new Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
-	}
-	
-	public static float dotProduct(Vector4 a, Vector4 b) {
-	    return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-	}
-	
-	public static Vector4 crossProduct(Vector4 a, Vector4 b) {
-	    return new Vector4((a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x), a.w);
+    public Attribute(String type, String id, Object value) {
+        group = "root";
+        canEdit = true;
+        canSave = true;
     }
 
-    public static Vector4 normalize(Vector4 v) {
-        float len = (float)Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	    return new Vector4(v.x / len, v.y / len, v.z / len, v.w);
+    public Attribute(String type, String id, Object value, String group) {
+        this.group = group;
+        canEdit = true;
+        canSave = true;
+    }
+
+    static final String TInt = "TInt";
+    static final String TFloat = "TFloat";
+    static final String TDouble = "TDouble";
+    static final String TArray = "TArray";
+    static final String TVector3 = "TVector3";
+    static final String TVector2 = "TVector2";
+    static final String TMesh = "TMesh";
+    static final String TTexture = "TTexture";
+    static final String TGameScript = "TGameScript";
+    static final String TString = "TString";
+}
+
+class AttributeList extends SafeList<Attribute> {
+    public AttributeList() {
+        super();
+    }
+
+    public AttributeList(int allocatedSize) {
+        super(allocatedSize);
+    }
+
+    public Attribute getAttribute(String id, String group) {
+        for (int i = 0; i < this.getSize(); i++) {
+            Attribute a = this.get(i);
+
+            if (a.id.equals(id) && a.group.equals(group)) {
+                return a;
+            }
+        }
+
+        return null;
+    }
+
+    public void addUniqueAttribute(Attribute attribute) {
+        for (int i = 0; i < this.getSize(); i++) {
+            Attribute a = this.get(i);
+
+            if (a.id.equals(attribute.id) && a.group.equals(attribute.group)) {
+                return;
+            }
+        }
+
+        this.add(attribute);
     }
 }
 
-class Matrix4x4 {
-	Vector4 x, y, z, w;
+class TransformWC {
+    public Component base;
+    public Vector3 translation;
+    public Vector3 scale;
+    public Vector3 rotation;
 
-	public Matrix4x4(Vector4 x, Vector4 y, Vector4 z, Vector4 w) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.w = w;
-	}
+    public TransformWC(Component base) {
+        this.base = base;
+        translation = (Vector3)base.attributes.getAttribute("trnaslation", base.type).value;
+        scale = (Vector3)base.attributes.getAttribute("scale", base.type).value;
+        rotation = (Vector3)base.attributes.getAttribute("rotation", base.type).value;
+    }
+}
 
-	public Matrix4x4(Vector4 x, Vector4 y, Vector4 z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.w = new Vector4();
-	}
+class Component {
+    public String type;
+    public AttributeList attributes;
+}
 
-	public Matrix4x4(Vector4 x, Vector4 y) {
-		this.x = x;
-		this.y = y;
-		this.z = new Vector4();
-		this.w = new Vector4();
-	}
+class ScriptableEntity {
+    String id;
+    String parent;
+    boolean canSave;
+    boolean canSelect;
+    SafeList<Component> components;
+    SafeList<GameScript> scripts;
 
-    public Matrix4x4 transpose(Matrix4x4 mat) {
-        return new Matrix4x4(
-	        new Vector4(mat.x.x, mat.y.x, mat.z.x, mat.w.x),
-	        new Vector4(mat.x.y, mat.y.y, mat.z.y, mat.w.y),
-	        new Vector4(mat.x.z, mat.y.z, mat.z.z, mat.w.z),
-	        new Vector4(mat.x.w, mat.y.w, mat.z.w, mat.w.w)
-	    );
+    public ScriptableEntity(String id, String parent, boolean canSave, boolean canSelect) {
+        this.id = id;
+        this.parent = parent;
+        this.canSave = canSave;
+        this.canSelect = canSelect;
+    }
+}
+
+class GameObject {
+    String id;
+    String parent;
+    Transform transform;
+    boolean canSave;
+    boolean canSelect;
+    AttributeList atributes;
+    Framework framework;
+
+    public GameObject(String id) {
+        this.id = id;
     }
 
-    public Matrix4x4 mul(Matrix4x4 a, Matrix4x4 b) {
-        Matrix4x4 nb = transpose(b);
+    public void start() { }
+    public void update() { }
+}
 
-        return new Matrix4x4(
-	        new Vector4(Vector4.dotProduct(a.x, nb.x), Vector4.dotProduct(a.x, nb.y), Vector4.dotProduct(a.x, nb.z), Vector4.dotProduct(a.x, nb.w)),
-	        new Vector4(Vector4.dotProduct(a.y, nb.x), Vector4.dotProduct(a.y, nb.y), Vector4.dotProduct(a.y, nb.z), Vector4.dotProduct(a.y, nb.w)),
-	        new Vector4(Vector4.dotProduct(a.z, nb.x), Vector4.dotProduct(a.z, nb.y), Vector4.dotProduct(a.z, nb.z), Vector4.dotProduct(a.z, nb.w)),
-	        new Vector4(Vector4.dotProduct(a.w, nb.x), Vector4.dotProduct(a.w, nb.y), Vector4.dotProduct(a.w, nb.z), Vector4.dotProduct(a.w, nb.w))
-        );
-    }
-	
-	public Matrix4x4 identity() {
-	    return new Matrix4x4(
-	        new Vector4(1.0f, 0.0f, 0.0f, 0.0f),
-	        new Vector4(0.0f, 1.0f, 0.0f, 0.0f),
-	        new Vector4(0.0f, 0.0f, 1.0f, 0.0f),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
+class Player extends GameObject {
+    Attribute weight;
+    Attribute mass;
+    Attribute health;
+    Attribute velocity;
 
-    public Matrix4x4 translation(float x, float y, float z) {
-	    return new Matrix4x4(
-	        new Vector4(1.0f, 0.0f, 0.0f, x),
-	        new Vector4(0.0f, 1.0f, 0.0f, y),
-	        new Vector4(0.0f, 0.0f, 1.0f, z),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
+    public Player(String id) {
+        super(id);
 
-    public Matrix4x4 scale(float x, float y, float z) {
-	    return new Matrix4x4(
-	        new Vector4(x, 0.0f, 0.0f, 0.0f),
-	        new Vector4(0.0f, y, 0.0f, 0.0f),
-	        new Vector4(0.0f, 0.0f, z, 0.0f),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
+        // Create physics atributes
+        atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "weight", 0.0f, "Entity"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "mass", 0.0f, "Entity"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "health", 0.0f, "Entity"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TVector3, "velocity", new Vector3(), "Entity"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TGameScript, "entityScript", "EntityScript.java", "Entity"));
 
-    public Matrix4x4 reotateX(float rad) {
-	    return new Matrix4x4(
-	        new Vector4(1.0f, 0.0f, 0.0f, 0.0f),
-	        new Vector4(0.0f, (float)Math.cos(rad), (float)Math.sin(rad), 0.0f),
-	        new Vector4(0.0f, -(float)Math.sin(rad), (float)Math.cos(rad), 0.0f),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
+        // Create sprite renderer atributes
+        atributes.addUniqueAttribute(new Attribute(Attribute.TString, "source", "heart.png", "SpriteRenderer"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TVector3, "position", new Vector3(), "SpriteRenderer"));
+        atributes.addUniqueAttribute(new Attribute(Attribute.TGameScript, "spriteRendererScript", "SpriteRendererScript.java", "SpriteRenderer"));
 
-    public Matrix4x4 reotateY(float rad) {
-	    return new Matrix4x4(
-	        new Vector4((float)Math.cos(rad), 0.0f, -(float)Math.sin(rad), 0.0f),
-	        new Vector4(0.0f, 1.0f, 0.0f, 0.0f),
-	        new Vector4((float)Math.sin(rad), 0.0f, (float)Math.cos(rad), 0.0f),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
-
-    public Matrix4x4 reotateZ(float rad) {
-	    return new Matrix4x4(
-	        new Vector4((float)Math.cos(rad), -(float)Math.sin(rad), 0.0f, 0.0f),
-	        new Vector4((float)Math.sin(rad), (float)Math.cos(rad), 0.0f, 0.0f),
-	        new Vector4(0.0f, 0.0f, 1.0f, 0.0f),
-	        new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
-	    );
-	}
-
-    public Matrix4x4 lookAt(Vector4 position, Vector4 target, Vector4 at) {
-
-        return null;
+        // Initialize pointers
+        initializeAtributes();
     }
 
-    public Matrix4x4 perspective(float fov, float aspectRatio, float near, float far) {
-        
-        return null;
+    public final void initializeAtributes() {
+        weight = atributes.getAttribute("weight", "Entity");
+        mass = atributes.getAttribute("mass", "Entity");
+        mass = atributes.getAttribute("health", "Entity");
+        mass = atributes.getAttribute("velocity", "Entity");
+    }
+
+    @Override
+    public void start() {
+        super.start();
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 }
 
@@ -189,6 +199,22 @@ public class Main {
     public static Editor editor;
     
     public static void main(String[] args) {
+        //GameObject playerObject = new GameObject("player");
+//
+        //// Create physics atributes
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "weight", 0.0f, "Entity"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "mass", 0.0f, "Entity"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TFloat, "health", 0.0f, "Entity"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TVector3, "velocity", new Vector3(), "Entity"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TGameScript, "entityScript", "EntityScript.java", "Entity"));
+//
+        //// Create sprite renderer atributes
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TString, "source", "heart.png", "SpriteRenderer"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TVector3, "position", new Vector3(), "SpriteRenderer"));
+        //playerObject.atributes.addUniqueAttribute(new Attribute(Attribute.TGameScript, "spriteRendererScript", "SpriteRendererScript.java", "SpriteRenderer"));
+
+
+
         JFrame splashScreen = new JFrame();
         splashScreen.setSize(new Dimension(600, 350));
         splashScreen.setUndecorated(true);
@@ -206,14 +232,5 @@ public class Main {
         //editor.start((long)(1000.0 / 60.0)); // 60 FPS
         projectBrowser.setLocationRelativeTo(null);
         projectBrowser.start((long)(1000.0 / 60.0)); // 60 FPS
-
-        Matrix4x4 mat4x4 = new Matrix4x4(
-            new Vector4(1, 2, 3, 1), 
-            new Vector4(3, 2, 1, 1),
-            new Vector4(1, 2, 3, 1)
-        );
-
-        Vector4 result2 = Vector4.mul(new Vector4(4, 5, 6, 1), mat4x4);
-        System.out.printf("Result: %f, %f, %f, %f\n", result2.x, result2.y, result2.z, result2.w);
     }
 }
