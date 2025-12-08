@@ -1,0 +1,27 @@
+<E4JScene id="Scene 1" parent="null">
+    <E4JGameObject id="Player" parent="Scene 1" name="Player">
+        <E4JComponent id="Transform" parent="Player">
+            <E4JAttribute id="Translation" parent="Game Object" dataType="E4JVector3" editAccess="1">0.0, 0.0, 0.0</E4JAttribute>
+            <E4JAttribute id="Scale" parent="Game Object" dataType="E4JVector3" editAccess="1">1.0, 1.0, 1.0</E4JAttribute>
+            <E4JAttribute id="Rotation" parent="Game Object" dataType="E4JVector3" editAccess="1">0.0, 0.0, 0.0</E4JAttribute>
+        </E4JComponent>
+        <E4JComponent id="Game Object" parent="Player">
+            <E4JAttribute id="Is Visible" parent="Game Object" dataType="Boolean" editAccess="1">true</E4JAttribute>
+        </E4JComponent>
+    </E4JGameObject>
+    <E4JGameObject id="Zombie 1" parent="Scene 1" name="Zombie 1">
+        <E4JComponent id="Game Object" parent="Player">
+            <E4JAttribute id="Is Visible" parent="Game Object" dataType="Boolean" editAccess="1">true</E4JAttribute>
+        </E4JComponent>
+    </E4JGameObject>
+    <E4JGameObject id="Zombie 2" parent="Scene 1" name="Zombie 2">
+        <E4JComponent id="Game Object" parent="Player">
+            <E4JAttribute id="Is Visible" parent="Game Object" dataType="Boolean" editAccess="1">true</E4JAttribute>
+        </E4JComponent>
+    </E4JGameObject>
+    <E4JGameObject id="Zombie 3" parent="Scene 1" name="Zombie 3">
+        <E4JComponent id="Game Object" parent="Player">
+            <E4JAttribute id="Is Visible" parent="Game Object" dataType="Boolean" editAccess="1">true</E4JAttribute>
+        </E4JComponent>
+    </E4JGameObject>
+</E4JScene>

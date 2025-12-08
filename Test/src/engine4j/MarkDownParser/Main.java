@@ -1,14 +1,29 @@
 package engine4j.MarkDownParser;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+import engine4j.editor.ui.CustomTab;
+import engine4j.editor.ui.EditorStyle;
+import engine4j.editor.ui.TabLayout;
+import engine4j.editor.ui.TabManager;
+import engine4j.editor.ui.ToolButton;
 import engine4j.util.EasyFiles;
 import engine4j.util.GameWindow;
 import engine4j.util.SafeList;
@@ -27,6 +42,7 @@ import softr4j.VERTEX_COMBO;
 import softr4j.Vector4;
 import softr4j.Viewport;
 
+// Primitive data types
 // static final String TINT = "TInt";
 // static final String TFLOAT = "TFloat";
 // static final String TDOUBLE = "TDouble";
@@ -38,7 +54,12 @@ import softr4j.Viewport;
 // static final String TMESH = "TMesh";
 // static final String TTEXTURE = "TTexture";
 
-class TVector2 {
+abstract class PrimitiveDataType<T> {
+    public String serialize(T t) { return ""; }
+    public T deserialize(String s) { return null; }
+}
+
+class TVector2 extends PrimitiveDataType<TVector2> {
     float x, y;
 
     public TVector2() {
@@ -50,9 +71,44 @@ class TVector2 {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String serialize(TVector2 t) { 
+        return "" + x + ", " + y;
+    }
+
+    @Override
+    public TVector2 deserialize(String s) { 
+        String clearedStr = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if ((c >= '0' && c <= '9') || c == '-' || c == '.' || c == ',') {
+                clearedStr += c;
+            }
+        }
+
+        String[] strValues = clearedStr.split(",");
+        float value1 = 0.0f, value2 = 0.0f;
+
+        if (strValues[0].length() >= 1) {
+            try {
+                value1 = Float.parseFloat(strValues[0]);
+            } catch (Exception e) { }
+        }
+
+        if (strValues[1].length() >= 1) {
+            try {
+                value2 = Float.parseFloat(strValues[1]);
+            } catch (Exception e) { }
+        }
+
+        return new TVector2(value1, value2); 
+    }
 }
 
-class TVector3 {
+class TVector3 extends PrimitiveDataType<TVector3> {
     float x, y, z;
 
     public TVector3() {
@@ -66,7 +122,111 @@ class TVector3 {
         this.y = y;
         this.z = z;
     }
+
+    @Override
+    public String serialize(TVector3 t) { 
+        return "" + x + ", " + y + ", " + z;
+    }
+
+    @Override
+    public TVector3 deserialize(String s) { 
+        String clearedStr = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if ((c >= '0' && c <= '9') || c == '-' || c == '.' || c == ',') {
+                clearedStr += c;
+            }
+        }
+
+        String[] strValues = clearedStr.split(",");
+        float value1 = 0.0f, value2 = 0.0f, value3 = 0.0f;
+
+        if (strValues[0].length() >= 1) {
+            try {
+                value1 = Float.parseFloat(strValues[0]);
+            } catch (Exception e) { }
+        }
+
+        if (strValues[1].length() >= 1) {
+            try {
+                value2 = Float.parseFloat(strValues[1]);
+            } catch (Exception e) { }
+        }
+
+        if (strValues[2].length() >= 1) {
+            try {
+                value3 = Float.parseFloat(strValues[2]);
+            } catch (Exception e) { }
+        }
+
+        return new TVector3(value1, value2, value3);
+    }
 }
+
+class E4JObject {
+    protected String id;
+    protected String name;
+
+    public E4JObject(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String serialize() { 
+        return String.format("<%s id=\"%s\" name=\"%s\"/>", getClass().getSimpleName(), id, name);
+    }
+}
+
+class E4JGameObject extends E4JObject {
+    public E4JGameObject(String id, String name) {
+        super(id, name);
+    }
+
+    public Object parent;
+    public String type; // Tells the engine how to interpret the entity
+    public boolean canSave;
+    public boolean canSelect;
+    public boolean isVisible; // Determines if the entity is visible inside of the World Viewport of the editor
+    public EComponentRegistry components;
+    public SafeList<TGameScript> scripts; // Stores the scripts to avoid refinding
+    public GameStateManager manager;
+
+    public Object getParent() {
+        return parent;
+    }
+}
+
+// class E4JScript extends E4JObject {
+//     protected String source;
+//     protected Object parent;
+// 
+//     public E4JScript(String source, Object parent) {
+//         this.source = source;
+//         this.parent = parent;
+//     }
+// 
+//     public String getSource() {
+//         return source;
+//     }
+// 
+//     public Object getParent() {
+//         return parent;
+//     }
+// 
+//     public void start() {
+// 
+//     }
+// 
+//     public void update(float deltaTime) {
+//         
+//     }
+// }
 
 class TGameScript {
     String name;
@@ -233,48 +393,112 @@ class TransformComponentWrapper {
     }
 }
 
-// Updates to the Transformated entity projected to the screen;
-class ScreenSpaceWrapper {
-    public TVector2 position;
-    public TVector2 scale;
+enum UIComponentType {
+    BUTTON("BUTTON"),
+    STACK_PANEL("BUTTON"),
+    SCOLL_PANEL("BUTTON"),
+    TEXT_LABEL("BUTTON"),
+    TEXT_FIELD("BUTTON");
+    private UIComponentType(String s) {}
+}
+
+class UIComponentWrapper {
+    public TVector2 positionOffset;
+    public TVector2 positionScale;
+    public TVector2 sizeOffset;
+    public TVector2 sizeScale;
+    public UIComponentType type;
 }
 
 class ScriptableEntity {
-    String id;
-    String name;
-    String parent;
-    boolean canSave;
-    boolean canSelect;
-    boolean isVisible; // Determines if the entity is visible inside of the World Viewport of the editor
-    EComponentRegistry components;
-    GameStateManager manager;
+    public String id;
+    public String name;
+    public String parent;
+    public String type; // Tells the engine how to interpret the entity
+    public boolean canSave;
+    public boolean canSelect;
+    public boolean isVisible; // Determines if the entity is visible inside of the World Viewport of the editor
+    public EComponentRegistry components;
+    public SafeList<TGameScript> scripts; // Stores the scripts to avoid refinding
+    public GameStateManager manager;
 
-    // Pointers to potential components
-    Mesh mesh;
-    SafeList<TGameScript> scripts; // Stores the scripts to avoid refinding
-    TransformComponentWrapper transform; // Stores the found transformation to avoid refinding it
-    ScreenSpaceWrapper screenSpace; // Stores the position of an object in screen space
-
-    public ScriptableEntity(String id, String name, String parent, boolean canSave, boolean canSelect, boolean isVisible) {
+    public ScriptableEntity(String id, String name, String parent, String type, boolean canSave, boolean canSelect, boolean isVisible) {
         this.id = id;
         this.name = name;
         this.parent = parent;
+        this.type = type;
         this.canSave = canSave;
         this.canSelect = canSelect;
         this.isVisible = isVisible;
         components = new EComponentRegistry();
         scripts = new SafeList<TGameScript>();
-        transform = new TransformComponentWrapper();
-        screenSpace = new ScreenSpaceWrapper();
-        mesh = new Mesh();
     }
 
-    public void onInit(GameStateManager manager) {
+    public void initializeComponents() { }
+
+    public void start(GameStateManager manager) {
         this.manager = manager;
     }
 
-    public void onUpdate() {
-        
+    public void update() { 
+        if (type.equals("ScriptableEntity")) {
+            // Render bill board
+        }
+    }
+}
+
+class Folder extends ScriptableEntity {
+    public Folder(String id, String name, String parent, boolean canSave, boolean canSelect) {
+        super(id, name, parent, "Folder", canSave, canSelect, false);
+    }
+}
+
+class StaticMesh extends ScriptableEntity {
+    private TransformComponentWrapper transform;
+    private Mesh mesh;
+
+    public StaticMesh(String id, String name, String parent, boolean canSave, boolean canSelect, boolean isVisible) {
+        super(id, name, parent, "StaticMesh", canSave, canSelect, isVisible);
+    }
+
+    @Override
+    public void initializeComponents() {
+        super.initializeComponents();
+    }
+
+    @Override
+    public void start(GameStateManager manager) {
+        super.initializeComponents();
+        this.manager = manager;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+    }
+}
+
+class UIObject extends ScriptableEntity {
+    private TransformComponentWrapper transform;
+
+    public UIObject(String id, String name, String parent, boolean canSave, boolean canSelect, boolean isVisible) {
+        super(id, name, parent, "UIObject", canSave, canSelect, isVisible);
+    }
+
+    @Override
+    public void initializeComponents() {
+        super.initializeComponents();
+    }
+
+    @Override
+    public void start(GameStateManager manager) {
+        super.initializeComponents();
+        this.manager = manager;
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 }
 
@@ -359,9 +583,9 @@ class EngineRenderer {
     public Matrix4x4 projection = Matrix4x4.identity();
     Dimension frameBufferDimensions;
     DepthStencilView depthStencilView;
-    public TransformComponentWrapper transformation = new TransformComponentWrapper();
     DefaultShaderProgram shaderProgram = new DefaultShaderProgram();
-    
+    public TransformComponentWrapper transformation = new TransformComponentWrapper();
+
     public class ConstBufferInput {
         public Matrix4x4 model;
         public Matrix4x4 view;
@@ -370,13 +594,18 @@ class EngineRenderer {
         public Mesh mesh;
         public Texture2D activeTexture;
     }
-    
+
     public class DefaultShaderProgram extends ShaderProgram {
         public ConstBufferInput constBuffer = new ConstBufferInput();
+        private Vector4[] ins = new Vector4[3];
+        private Vector4[] cols = new Vector4[3];
 
         @Override
-        public Vector4 onVertexShaderCalled(Object input) {
-            Vector4 in = constBuffer.mesh.vertices[((INDEX_COMBO)input).vertex].pos;
+        public Vector4 onVertexShaderCalled(Object input, int index) {
+            VERTEX_COMBO vi = constBuffer.mesh.vertices[((INDEX_COMBO)input).vertex];
+            Vector4 in = vi.pos;
+            ins[index] = vi.pos;
+            cols[index] = vi.col;
             Vector4 pos = new Vector4(in.x, in.y, in.z, 1.0f);
 
             pos = Vector4.mul(pos, constBuffer.mvp);
@@ -384,18 +613,29 @@ class EngineRenderer {
             return pos;
         }
 
+        float dx;
+        float dy;
+        float len1;
+
         @Override
         public void onGeometryShaderCalled(Object[] input) {
-
+            dx = ins[1].x - ins[0].x;
+            dy = ins[1].y - ins[0].y;
+            len1 = (float)Math.sqrt(dx*dx + dy*dy);
         }
 
         @Override
         public Vector4 onPixelShaderCalled(int x, int y) {
             float halfWidth = frameBufferDimensions.width / 2.0f;
             float halfHeight = frameBufferDimensions.height / 2.0f;
-            float nx = (float)x / (float)frameBufferDimensions.width;
-            float ny = (float)y / (float)frameBufferDimensions.height;
-            return new Vector4(nx, ny, constBuffer.mesh.color.z, 1.0f);
+            float nx = ((float)x / (float)frameBufferDimensions.width - ins[0].x);
+            float ny = ((float)y / (float)frameBufferDimensions.height - ins[0].y);
+            float l = (float)Math.sqrt(nx*nx + ny*ny);
+            float dif = l / len1;
+            Vector4 newCol = Vector4.mul(Vector4.sub(cols[1],  cols[0]), dif);
+            
+            // Vector4 color = (Vector4)input[0];
+            return new Vector4(constBuffer.mesh.color.x, constBuffer.mesh.color.y, constBuffer.mesh.color.z, 1.0f);
         }
     };
 
@@ -414,10 +654,6 @@ class EngineRenderer {
         transformation.scale.z = 1.0f;
     }
     
-    public void setTransformation(TransformComponentWrapper transformation) {
-        this.transformation = transformation;
-    }
-
     public void loadTexture(Texture2D texture) {
         shaderProgram.constBuffer.activeTexture = texture;
     }
@@ -441,7 +677,7 @@ class EngineRenderer {
         // Set rasterization state
         RasterizationState rasterizer = new RasterizationState(RasterizationState.FILL, true, true, 4.0f);
         device.setRasterizationState(rasterizer);
-        
+
         // Setup vertex buffer
         softr4j.Buffer vertexBuffer = new softr4j.Buffer(BindFlag.VERTEX_BUFFER, mesh.vertices, mesh.vertices.length, 0, 0);
         device.bindBuffer(vertexBuffer);
@@ -667,11 +903,86 @@ class GameStateManager {
 class Engine extends GameWindow {
     ArrayList<Integer> keys = new ArrayList<>();
     EngineRenderer render;
+    TabLayout centralTabLayout;
+    JPanel viewportPanel;
+    TabManager tb;
 
     public Engine() {
         super(1200, 700, "3D Software Renderer");
 
-        addKeyListener(new KeyAdapter() {
+        // Mener bar
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(EditorStyle.BACKGROUND);
+        menuBar.setBorder(new EmptyBorder(1, 1, 1, 1));
+        menuBar.setForeground(Color.lightGray);
+        
+        JMenu file = new JMenu("File");
+        file.setForeground(Color.lightGray);
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        
+        file.add(saveMenuItem);
+        file.add(exitMenuItem);
+        
+        JMenu edit = new JMenu("Edit");
+        edit.setForeground(Color.lightGray);
+        JMenu view = new JMenu("View");
+        view.setForeground(Color.lightGray);
+        JMenu selection = new JMenu("Selection");
+        selection.setForeground(Color.lightGray);
+        JMenu debug = new JMenu("Debug");
+        JMenuItem playMenuItem = new JMenuItem("▶︎ Play");
+        JMenuItem stopMenuItem = new JMenuItem("⏹ Stop");
+        
+        debug.add(playMenuItem);
+        debug.add(stopMenuItem);
+        debug.setForeground(Color.lightGray);
+        JMenu help = new JMenu("Help");
+        help.setForeground(Color.lightGray);
+
+        menuBar.add(file);
+        menuBar.add(edit);
+        menuBar.add(view);
+        menuBar.add(selection);
+        menuBar.add(debug);
+        menuBar.add(help);
+        
+        this.setJMenuBar(menuBar);
+
+        // Tool bar
+        JPanel toolBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        toolBar.setBackground(EditorStyle.BACKGROUND);
+
+        ToolButton undoButton = new ToolButton("↩");
+        toolBar.add(undoButton);
+
+        ToolButton redoButton = new ToolButton("↪");
+        toolBar.add(redoButton);
+
+        ToolButton refreshButton = new ToolButton("↻ Refresh");
+        toolBar.add(refreshButton);
+
+        ToolButton saveButton = new ToolButton("💾 Save");
+        toolBar.add(saveButton);
+
+        this.add(toolBar, BorderLayout.NORTH);
+
+        // Play test button
+        ToolButton playTestButton = new ToolButton("▶︎ Play");
+        playTestButton.setForeground(new Color(165, 225, 120));
+
+        toolBar.add(playTestButton);
+
+        tb = new TabManager();
+        this.add(tb, BorderLayout.CENTER);
+
+        centralTabLayout = new TabLayout(new Dimension(200, 200), tb);
+        tb.add(centralTabLayout, BorderLayout.CENTER);
+        
+        viewportPanel = new JPanel();
+        centralTabLayout.addTab(new CustomTab("World Viewport", new JLabel("🗔"), viewportPanel));
+        
+        viewportPanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
@@ -692,11 +1003,40 @@ class Engine extends GameWindow {
                 }
             }
         });
+
+        viewportPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {                
+                viewportPanel.setVisible(true);
+                viewportPanel.requestFocus();
+            }
+        });
+
+        TabLayout outlinerLayout = new TabLayout(new Dimension(350, 320), tb);
+        tb.add(outlinerLayout, BorderLayout.EAST);
+
+        JPanel outlinerPanel = new JPanel();
+        outlinerPanel.setBackground(EditorStyle.BACKGROUND_ACCENT);
+        outlinerLayout.addTab(new CustomTab("Outliner", new JLabel("Ψ"), outlinerPanel));
+
+        TabLayout detailsLayout = new TabLayout(new Dimension(350, 550), tb);
+        outlinerLayout.add(detailsLayout, BorderLayout.SOUTH);
+
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setBackground(EditorStyle.BACKGROUND_ACCENT);
+        detailsLayout.addTab(new CustomTab("Details", new JLabel("Ψ"), detailsPanel));
+
+        TabLayout contentBrowserLayout = new TabLayout(new Dimension(350, 320), tb);
+        centralTabLayout.add(contentBrowserLayout, BorderLayout.SOUTH);
+
+        JPanel contentBrowserPanel = new JPanel();
+        contentBrowserPanel.setBackground(EditorStyle.BACKGROUND_ACCENT);
+        contentBrowserLayout.addTab(new CustomTab("Content Browser", new JLabel("🖿"), contentBrowserPanel));
     }
 
     @Override
     protected void onInit() {
-        render = new EngineRenderer(getGraphics(), getMaximumSize(), getSize());
+        render = new EngineRenderer(viewportPanel.getGraphics(), viewportPanel.getMaximumSize(), viewportPanel.getSize());
     }
 
     @Override
@@ -746,7 +1086,7 @@ class Engine extends GameWindow {
     
     @Override
     protected void onResized() {
-        render.updateSwapChain(getGraphics(), getMaximumSize(), getSize());
+        render.updateSwapChain(viewportPanel.getGraphics(), viewportPanel.getMaximumSize(), viewportPanel.getSize());
     }
 
     @Override
@@ -770,27 +1110,31 @@ public class Main {
         //System.out.println(content);
 
         // Parse the document
-        // MarkDownDocument mainDocument = new MarkDownDocument("Document");
-        // MarkDownReader.read(mainDocument, content);
-// 
-        // // Get the root directory from the document
-        // MarkDownDocument rootDocument = new MarkDownDocument("Root");
-        // MarkDownReader.read(rootDocument, mainDocument.getElementsByTag("Root").get(0).content);
-        // SafeList<MarkDownElement> scriptableEntities = rootDocument.getElementsByTag("ScriptableEntity");
-// 
-        // for (int i = 0; i < scriptableEntities.getSize(); i++) {
-        //     MarkDownElement e = scriptableEntities.get(i);
-        //     
-        //     for (int j = 0; j < e.attributes.getSize(); j++) {
-        //         MarkDownAttribute a = e.attributes.get(j);
-        //         System.out.println(String.format("%s: %s", a.name, a.value));
-        //     }
-// 
-        //     System.out.println(e.content);
-        // }
+        MarkDownDocument mainDocument = new MarkDownDocument("Document");
+        MarkDownReader.read(mainDocument, content);
+
+        // Get the root directory from the document
+        MarkDownDocument rootDocument = new MarkDownDocument("Root");
+        MarkDownReader.read(rootDocument, mainDocument.getElementsByTag("Root").get(0).content);
+        SafeList<MarkDownElement> scriptableEntities = rootDocument.getElementsByTag("ScriptableEntity");
+
+        for (int i = 0; i < scriptableEntities.getSize(); i++) {
+            MarkDownElement e = scriptableEntities.get(i);
+
+            for (int j = 0; j < e.attributes.getSize(); j++) {
+                MarkDownAttribute a = e.attributes.get(j);
+                System.out.println(String.format("%s: %s", a.name, a.value));
+            }
+        
+            System.out.println(e.content);
+        }
 
         Engine engine = new Engine();
         engine.start((long)(1000.0 / 5120.0)); // 60 FPS
+
+        E4JObject obj = new E4JObject("item1", "item 1");
+        System.out.println(obj.serialize());
+
 
         // JPanel viewportPanel = new JPanel();
         // viewportPanel.setSize(new Dimension(500, 500));

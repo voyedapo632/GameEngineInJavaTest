@@ -155,6 +155,10 @@ public class SafeList<T> {
         return false;
     }
 
+    public boolean isEmpty() {
+        return localSize == 0;
+    }
+
     public int getSize() {
         return localSize;
     }
