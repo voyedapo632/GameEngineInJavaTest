@@ -1,0 +1,23 @@
+<!--This is a comment-->
+<Root>
+    <GameObject id="Player" name="Player">
+        <Component id="Transform">
+            <Attribute id="Translation" type="Vector3">0.0, 0.0, 0.0</Attribute>
+            <Attribute id="Scale" type="Vector3">1.0, 1.0, 1.0</Attribute>
+            <Attribute id="Rotation" type="Vector3">0.0, 0.0, 0.0</Attribute>
+        </Component>
+        <Component id="Game Object">
+            <Attribute id="Is Visible" type="Boolean">true</Attribute>
+        </Component>
+    </GameObject>
+    <GameObject id="Zombie" name="Zombie">
+        <Component id="Transform">
+            <Attribute id="Translation" type="Vector3">0.0, 0.0, 0.0</Attribute>
+            <Attribute id="Scale" type="Vector3">1.0, 1.0, 1.0</Attribute>
+            <Attribute id="Rotation" type="Vector3">0.0, 0.0, 0.0</Attribute>
+        </Component>
+        <Component id="Game Object">
+            <Attribute id="Is Visible" type="Boolean">true</Attribute>
+        </Component>
+    </GameObject>
+</Root>

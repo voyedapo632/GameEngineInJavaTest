@@ -1,0 +1,203 @@
+<!--
+    Copyright (C) 2025 Victor Oyedapo.
+
+    All rights reserved.
+
+    The following document may be heavily modified by the Ultra3D Editor.
+    Modify at your own risk.
+-->
+
+<Root>
+    <Entity id="Item(21)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">25.07501, 21.65002, -15.490007</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item" parentId="Player">
+        <Component id="Static Mesh" parentId="Item">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">25.07501, 21.65002, -1.5600054</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Player" parentId="Root">
+        <Component id="Static Mesh" parentId="Player">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Player">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">25.07501, 22.035013, -36.52499</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Player">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Player">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">25.07501, 21.65002, 4.844991</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)(5)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)(5)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)(5)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">37.29002, 52.57503, 59.19999</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.9150001, 7.600001, 7.600001</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 180.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)(5)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)(5)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Player(6)" parentId="Root">
+        <Component id="Static Mesh" parentId="Player(6)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Player(6)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">68.299965, 30.235012, -36.52499</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Player(6)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Player(6)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)(5)(9)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)(5)(9)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)(5)(9)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">37.29002, 53.075058, 79.32496</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.9150001, 7.600001, 7.600001</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 180.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)(5)(9)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)(5)(9)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Player(6)(71)" parentId="Root">
+        <Component id="Static Mesh" parentId="Player(6)(71)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Player(6)(71)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">43.274998, 30.235012, -36.52499</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Player(6)(71)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Player(6)(71)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)(5)(9)(101)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)(5)(9)(101)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)(5)(9)(101)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">37.29002, 71.17005, 59.19999</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.9150001, 7.600001, 7.600001</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 180.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)(5)(9)(101)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)(5)(9)(101)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)(5)(9)(111)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)(5)(9)(111)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)(5)(9)(111)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">37.29002, 71.17005, 79.32496</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.9150001, 7.600001, 7.600001</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 180.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)(5)(9)(111)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)(5)(9)(111)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">25.07501, 29.850021, 18.109995</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">1.2749995, 4.1, 1.2749966</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">dfdsfds.png</Field>
+        </Component>
+    </Entity>
+    <Entity id="Item(21)(31)(4)(5)(81)" parentId="Player">
+        <Component id="Static Mesh" parentId="Item(21)(31)(4)(5)(81)">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedSphere.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="Item(21)(31)(4)(5)(81)">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">37.29002, 52.57503, 28.04999</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">2.0, 2.0, 2.0</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, -0.024999956</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="Item(21)(31)(4)(5)(81)">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="Item(21)(31)(4)(5)(81)">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">fsdfdfsdfsdf.png</Field>
+        </Component>
+    </Entity>
+</Root>
