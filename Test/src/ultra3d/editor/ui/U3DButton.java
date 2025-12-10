@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -20,7 +21,7 @@ class RoundedButtonBorder implements Border {
 
 
     public Insets getBorderInsets(Component c) {
-        return new Insets(0, radius-3, 4, radius);
+        return new Insets(2, 5, 2, 5);
     }
 
 
@@ -47,7 +48,7 @@ public class U3DButton extends JButton {
         
         setBackground(null);
         setLayout(new BorderLayout());
-        setBorder(new RoundedButtonBorder(8, U3DColors.skyBlue));
+        setBorder(new RoundedButtonBorder(3, U3DColors.skyBlue));
         add(textLabel, BorderLayout.CENTER);
     }
 }

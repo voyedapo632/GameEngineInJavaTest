@@ -15,7 +15,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
+
 import sr4j.Camera3D;
 import ultra3d.util.U3DVector3f;
 
@@ -99,7 +101,7 @@ public class EditorCameraSystem extends U3DComponentSystem {
         scene.getViewport().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1 && !scene.lastHovered.startsWith("TRANSFORM") && !scene.keys.contains(KeyEvent.VK_CONTROL)) {
+                if ((e.getButton() == MouseEvent.BUTTON1 || e.getButton() == MouseEvent.BUTTON3) && !scene.lastHovered.startsWith("TRANSFORM") && !scene.keys.contains(KeyEvent.VK_CONTROL)) {
                     mouseDown = true;
                 }
                 
@@ -209,15 +211,15 @@ public class EditorCameraSystem extends U3DComponentSystem {
 
                         switch (scene.lastHovered) {
                             case "TRANSFORM Rotation X" -> {
-                                rotation.x += (dx + -dy) * 0.035f;
+                                rotation.x += (dx + -dy) * 0.35f;
                                 updateProperty = true;
                             }
                             case "TRANSFORM Rotation Y" -> {
-                                rotation.y -= (dx + dy) * 0.035f;
+                                rotation.y -= (dx + dy) * 0.35f;
                                 updateProperty = true;
                             }
                             case "TRANSFORM Rotation Z" -> {
-                                rotation.z -= (dx + dy) * 0.035f;
+                                rotation.z -= (dx + dy) * 0.35f;
                                 updateProperty = true;
                             }
                             default -> {
@@ -285,4 +287,3 @@ public class EditorCameraSystem extends U3DComponentSystem {
         System.out.println("Editor Camera System has ended");
     }
 }
-

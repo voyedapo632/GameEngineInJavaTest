@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
+
 import javax.swing.JPanel;
+
 import ultra3d.ultra3dxml.U3DXmlDocument;
 import ultra3d.ultra3dxml.U3DXmlElement;
 import ultra3d.util.U3DVector3f;

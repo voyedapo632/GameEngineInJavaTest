@@ -30,7 +30,7 @@ public class U3DInputField extends JTextField {
         setBackground(U3DColors.black);
         setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(U3DColors.forground2, 1),
-            BorderFactory.createMatteBorder(0, 2, 0, 0, heightlightColor)
+            BorderFactory.createMatteBorder(0, 0, 0, 0, heightlightColor)
         ));
         setCaretColor(U3DColors.text);
         setLayout(new BorderLayout());

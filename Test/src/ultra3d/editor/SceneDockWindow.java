@@ -15,8 +15,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import sr4j.SR4JSurfaceTarget;
 import ultra3d.editor.ui.U3DColors;
 import ultra3d.editor.ui.U3DDockWindow;
@@ -142,7 +144,7 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
     @Override
     public void onStart() {
         localScene.onStart();
-        localScene.getGraphicsEngine().setResolution(720, 512);
+        localScene.getGraphicsEngine().setResolution(1240, 720);
         
         if (getContentPanel().isVisible()) {
             localScene.getGraphicsEngine().swapChain.setSurfaceTarget(new SR4JSurfaceTarget(localScene.getViewport()));
@@ -158,6 +160,8 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
             editor.details.updateUI();
             editor.details.validate();
         }
+
+        editor.console.writeLine("Scene \"" + sceneName + "\" has started", U3DColors.text);
     }
 
     @Override

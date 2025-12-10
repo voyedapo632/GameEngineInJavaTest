@@ -28,7 +28,7 @@ public class ConsoleWindow extends U3DDockWindow {
     private U3DButton clearButton;
 
     public ConsoleWindow(U3DEditor editor) {
-        super("Console", new JLabel(">_"));
+        super("Console", new JLabel("📟"));
 
         // Grid bag
         gbc = new GridBagConstraints();
@@ -46,7 +46,7 @@ public class ConsoleWindow extends U3DDockWindow {
         getContentPanel().add(header, BorderLayout.NORTH);
 
         // Clear button
-        clearButton = new U3DButton("Clear");
+        clearButton = new U3DButton("⌫ Clear");
 
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -60,21 +60,22 @@ public class ConsoleWindow extends U3DDockWindow {
 
         // Lines
         lines = new JPanel(new GridBagLayout());
-        lines.setBackground(U3DColors.background);
+        lines.setBackground(U3DColors.background2);
         
         // Body panel
         bodyPanel = new JPanel(new BorderLayout());
-        bodyPanel.setBackground(U3DColors.background);
+        bodyPanel.setBackground(U3DColors.background2);
         bodyPanel.add(lines, BorderLayout.NORTH);
 
         // Scroll pane
         scrollPane = new JScrollPane(bodyPanel);
         scrollPane.getVerticalScrollBar().setUI(new U3DScrollBarUI());
+        scrollPane.getVerticalScrollBar().setBackground(null);
         scrollPane.getHorizontalScrollBar().setUI(new U3DScrollBarUI());
         scrollPane.setAutoscrolls(false);
-        scrollPane.setBackground(null);
+        scrollPane.setBackground(U3DColors.background2);
         scrollPane.setBorder(null);
-        getContentPanel().add(bodyPanel, BorderLayout.CENTER);
+        getContentPanel().add(scrollPane, BorderLayout.CENTER);
     }
 
     public void writeLine(String message, Color color) {

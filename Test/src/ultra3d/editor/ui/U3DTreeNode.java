@@ -31,7 +31,7 @@ public class U3DTreeNode extends JPanel {
     public JToggleButton visbilityButton;
     public JToggleButton expandButton;
     protected JLabel typeLabel;
-    protected JLabel icon;
+    public JLabel icon;
     public JLabel name;
     protected JLabel indentSpace;
     protected int index;
@@ -111,7 +111,7 @@ public class U3DTreeNode extends JPanel {
 
         icon = new JLabel("🖿");
         icon.setPreferredSize(new Dimension(30, 25));
-        icon.setForeground(U3DColors.text);
+        icon.setForeground(new Color(0xBF9660));
         this.name = new JLabel(name);
         this.name.setForeground(U3DColors.text);
         setLayout(new BorderLayout());
@@ -165,12 +165,16 @@ public class U3DTreeNode extends JPanel {
 
     public void validateU3DTreeNode() {
         indentSpace.setPreferredSize(new Dimension(15 * indentLevel, 30));
+        typeLabel.setForeground(U3DColors.text2);
 
         if (parentTreeView.selectedTreeNods.contains(this)) {
             if (mainButton.hasFocus()) {
                 activeColor = U3DColors.skyBlue;
+                setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, U3DColors.text2));
+                typeLabel.setForeground(U3DColors.text);
             } else {
                 activeColor = U3DColors.selected;
+                setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
             }
         } else {
             if (index % 2 == 0) {
@@ -178,6 +182,8 @@ public class U3DTreeNode extends JPanel {
             } else {
                 activeColor = U3DColors.background3;
             }
+
+            setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
         }
 
         if (!treeNodeVisible) {
@@ -317,7 +323,7 @@ public class U3DTreeNode extends JPanel {
         // Type label
         typeLabel = new JLabel(typeText);
         typeLabel.setPreferredSize(new Dimension(90, 25));
-        typeLabel.setForeground(U3DColors.text);
+        typeLabel.setForeground(U3DColors.text2);
         rightColumn.add(typeLabel);
 
         // Add main button

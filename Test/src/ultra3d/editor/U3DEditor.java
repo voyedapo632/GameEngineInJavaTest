@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import ultra3d.editor.ui.U3DColors;
 import ultra3d.editor.ui.U3DDockManeger;
 import ultra3d.editor.ui.U3DDockWindow;
 import ultra3d.framework.U3DSceneManager;
@@ -22,15 +23,16 @@ public class U3DEditor extends GameWindow {
     public ContentBrowserWindow contentBrowser;
     public U3DDockWindow prefabs;
     public ConsoleWindow console;
-    public U3DDockWindow solutionExplorer;
+    public SolutionExplorerWindow solutionExplorer;
     public ArrayList<SceneDockWindow> loadedScenes;
     public ArrayList<KeyEvent> keys;
     public U3DSceneManager sceneManager;
     public String projectPath;
     public EditorMenuBar menuBar;
+    public EditorToolBar toolBar;
 
     public U3DEditor(String projectPath) {
-        super(1200, 700, "Ultra3D Editor");
+        super(1200, 700, "Ultra3D Editor (" + projectPath + ")");
         this.projectPath = projectPath;
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         loadedScenes = new ArrayList<>();
@@ -41,6 +43,10 @@ public class U3DEditor extends GameWindow {
         // Menu bar
         menuBar = new EditorMenuBar(this);
         
+        // Tool bar
+        toolBar = new EditorToolBar(this);
+        add(toolBar, BorderLayout.NORTH);
+
         // Main dock manager
         mainDockManager = new U3DDockManeger();
         add(mainDockManager, BorderLayout.CENTER);
@@ -60,7 +66,7 @@ public class U3DEditor extends GameWindow {
         
         // Details
         details = new DetailsDockWindow(this);
-        details.setPreferredSize(new Dimension(350, 500));
+        details.setPreferredSize(new Dimension(350, 450));
         outliner.addChildDockWindow(details, U3DDockManeger.DOCK_POSITION_BOTTOM);
 
         // Content browser
@@ -71,17 +77,17 @@ public class U3DEditor extends GameWindow {
         // Prefabs
         prefabs = new U3DDockWindow("Prefabs", new JLabel("[]"));
         prefabs.setPreferredSize(new Dimension(350, 300));
-        centralDockArea.addChildDockWindow(prefabs, U3DDockManeger.DOCK_POSITION_LEFT);
+        // centralDockArea.addChildDockWindow(prefabs, U3DDockManeger.DOCK_POSITION_LEFT);
 
         // Console
-        console = new ConsoleWindow(this);
+        console = new ConsoleWindow (this);
         console.setPreferredSize(new Dimension(550, 300));
         contentBrowser.addChildDockWindow(console, U3DDockManeger.DOCK_POSITION_RIGHT);
 
         // Solution explorer
-        solutionExplorer = new U3DDockWindow("Solution Explorer", new JLabel("[]"));
-        solutionExplorer.setPreferredSize(new Dimension(550, 300));
-        outliner.addChildDockWindow(solutionExplorer, U3DDockManeger.DOCK_POSITION_CENTER);
+        solutionExplorer = new SolutionExplorerWindow(this);
+        solutionExplorer.setPreferredSize(new Dimension(350, 350));
+        centralDockArea.addChildDockWindow(solutionExplorer, U3DDockManeger.DOCK_POSITION_LEFT);
     }
 
     @Override
@@ -141,7 +147,9 @@ public class U3DEditor extends GameWindow {
             if (file.isFile()) {
                 if (file.getName().endsWith(".obj")) {
                     sceneManager.loadOBJFile(file.getPath());
+                    console.writeLine("Object file \"" + file.getName() + "\" was loaded", U3DColors.text);
                 } else if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".jpeg")) {
+                    console.writeLine("Image file \"" + file.getName() + "\" was loaded", U3DColors.text);
                     sceneManager.loadTextureFile(file.getPath());
                 }
             }

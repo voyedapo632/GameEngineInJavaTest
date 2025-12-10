@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
+
 public class U3DNumberInputField extends U3DInputField {
     protected Float numberSource;
 
@@ -11,6 +13,10 @@ public class U3DNumberInputField extends U3DInputField {
         super(heightlightColor);
         this.numberSource = numberSource;
         setText(numberSource.toString());
+        setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(U3DColors.forground2, 1),
+            BorderFactory.createMatteBorder(0, 2, 0, 0, heightlightColor)
+        ));
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {

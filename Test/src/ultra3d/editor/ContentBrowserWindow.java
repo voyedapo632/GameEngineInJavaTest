@@ -254,8 +254,9 @@ public class ContentBrowserWindow extends U3DDockWindow {
 
         // Header
         header = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        header.setPreferredSize(new Dimension(30, 30));
-        header.setBackground(U3DColors.forground2);
+        header.setPreferredSize(new Dimension(35, 35));
+        header.setBackground(U3DColors.forground);
+        header.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, U3DColors.background));
         getContentPanel().add(header, BorderLayout.NORTH);
 
         headerText = new JLabel(editor.projectPath);
@@ -343,7 +344,7 @@ public class ContentBrowserWindow extends U3DDockWindow {
                 } else if (file.getName().endsWith(".png")) {
                     icon.setText("🏞️");
                 } else if (file.getName().endsWith(".java")) {
-                    icon.setText("🇯");
+                    icon.setText("J");
                     icon.setForeground(new Color(255, 60, 60));
                 } else if (file.getName().endsWith(".txt")) {
                     icon.setText("🗎");
@@ -359,7 +360,7 @@ public class ContentBrowserWindow extends U3DDockWindow {
             } else {
                 U3DItemContainerPlain item = new U3DItemContainerPlain(new JLabel("🖿"), file.getName());
 
-                item.icon.setForeground(new Color(1.0f, 0.8f, 0.25f));
+                item.icon.setForeground(new Color(0xBF9660));
 
                 item.addActionListener((ActionEvent e) -> {
                     populateGridPanel(file.getAbsolutePath(), true);
