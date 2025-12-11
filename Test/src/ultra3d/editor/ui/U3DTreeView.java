@@ -11,6 +11,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -178,6 +180,7 @@ public class U3DTreeView extends JPanel {
                 }
 
                 validate();
+                requestFocus();
             }
         });
 
@@ -217,6 +220,14 @@ public class U3DTreeView extends JPanel {
                 }
 
                 reloadTreeView();
+                requestFocus();
+            }
+        });
+
+        content.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("Test!");
             }
         });
 

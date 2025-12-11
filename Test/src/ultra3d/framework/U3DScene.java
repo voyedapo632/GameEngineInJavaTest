@@ -27,6 +27,9 @@ import ultra3d.ultra3dxml.U3DXmlElement;
 import ultra3d.util.U3DVector3f;
 
 public class U3DScene extends U3DObject implements U3DEventInterface {
+    public static final int PLAY_MODE_STOPPED = 0;
+    public static final int PLAY_MODE_PAUSED = 1;
+    public static final int PLAY_MODE_PLAYING = 2;
     public static final int SELECTION_MODE_POINTER = 0;
     public static final int SELECTION_MODE_TRANSLATION = 1;
     public static final int SELECTION_MODE_SCALE = 2;

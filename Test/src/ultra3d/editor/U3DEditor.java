@@ -61,12 +61,12 @@ public class U3DEditor extends GameWindow {
 
         // Outliner
         outliner = new OutlinerDockWindow(this);
-        outliner.setPreferredSize(new Dimension(350, 500));
+        outliner.setPreferredSize(new Dimension(380, 500));
         mainDockManager.addChildDockWindow(outliner, U3DDockManeger.DOCK_POSITION_RIGHT);
         
         // Details
         details = new DetailsDockWindow(this);
-        details.setPreferredSize(new Dimension(350, 450));
+        details.setPreferredSize(new Dimension(380, 450));
         outliner.addChildDockWindow(details, U3DDockManeger.DOCK_POSITION_BOTTOM);
 
         // Content browser
@@ -82,7 +82,7 @@ public class U3DEditor extends GameWindow {
         // Console
         console = new ConsoleWindow (this);
         console.setPreferredSize(new Dimension(550, 300));
-        contentBrowser.addChildDockWindow(console, U3DDockManeger.DOCK_POSITION_RIGHT);
+        contentBrowser.addChildDockWindow(console, U3DDockManeger.DOCK_POSITION_CENTER);
 
         // Solution explorer
         solutionExplorer = new SolutionExplorerWindow(this);

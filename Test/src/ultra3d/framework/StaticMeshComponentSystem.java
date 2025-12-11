@@ -67,7 +67,7 @@ public class StaticMeshComponentSystem extends U3DComponentSystem {
 
     @Override
     public void onValidated() {
-        entities = scene.queryEntities(new String[] { "Transform", "Static Mesh", "Texture", "Entity Misc"});
+        entities = scene.queryEntities(new String[] { "Transform", "Static Mesh", "Texture", "Entity Misc" });
     }
 
     @Override

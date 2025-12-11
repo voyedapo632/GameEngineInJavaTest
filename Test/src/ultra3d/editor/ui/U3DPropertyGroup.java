@@ -15,8 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.plaf.metal.MetalButtonUI;
 
-import ultra3d.editor.U3DEditor;
-
 public class U3DPropertyGroup extends JPanel {
     protected ArrayList<U3DPropertyContainer> properties;
     protected JToggleButton expandButton;
@@ -36,6 +34,7 @@ public class U3DPropertyGroup extends JPanel {
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(U3DColors.forground2);
         mainPanel.setPreferredSize(new Dimension(30, 30));
+        mainPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, U3DColors.background));
 
         // Expand button
         expandButton = new JToggleButton("🞃");
@@ -43,6 +42,7 @@ public class U3DPropertyGroup extends JPanel {
         expandButton.setPreferredSize(new Dimension(30, 25));
         expandButton.setBackground(null);
         expandButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
         mainPanel.add(expandButton, BorderLayout.WEST);
 
         expandButton.setUI(new MetalButtonUI() {

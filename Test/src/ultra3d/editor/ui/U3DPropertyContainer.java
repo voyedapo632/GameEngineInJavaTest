@@ -36,7 +36,7 @@ public class U3DPropertyContainer extends JPanel {
         column1.setPreferredSize(new Dimension((int)(parentWidth / 2.0), 30));
         column1.setBackground(null);
         column1.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 2, 2, 0, U3DColors.background),
+            BorderFactory.createMatteBorder(0, 1, 1, 0, U3DColors.background),
             BorderFactory.createEmptyBorder(4, 8, 4, 8)
         ));
 
@@ -49,7 +49,7 @@ public class U3DPropertyContainer extends JPanel {
         column2 = new JPanel(new GridLayout(1, 3, 2, 2));
         column2.setBackground(null);
         column2.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 2, 2, 0, U3DColors.background),
+            BorderFactory.createMatteBorder(0, 1, 1, 0, U3DColors.background),
             BorderFactory.createEmptyBorder(4, 8, 4, 8)
         ));
         add(column2, BorderLayout.CENTER);

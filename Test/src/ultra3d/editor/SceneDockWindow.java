@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -80,6 +82,13 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
         getContentPanel().add(localScene.getViewport(), BorderLayout.CENTER);
         validate();
 
+        localScene.getViewport().addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                localScene.getKeys().clear();
+            }
+        });
+
         // Events
         getContentPanel().addComponentListener(new ComponentAdapter() {
             @Override
@@ -113,7 +122,9 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
         localScene.getViewport().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyChar()) {
+                int keyCode = e.getKeyCode();
+
+                switch (keyCode) {
                     case KeyEvent.VK_1 -> {
                         localScene.selectionMode = U3DScene.SELECTION_MODE_POINTER;
                         updateSelection();
@@ -131,6 +142,21 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
                         updateSelection();
                     }
                     default -> {
+                    }
+                }
+
+                if (!editor.outliner.treeView.keys.contains(keyCode)) {
+                    editor.outliner.treeView.keys.add(keyCode);
+                }
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                for (int i = 0; i < editor.outliner.treeView.keys.size(); i++) {
+                    Integer key = editor.outliner.treeView.keys.get(i);
+                    
+                    if (key.equals(e.getKeyCode())) {
+                        editor.outliner.treeView.keys.remove(i);
                     }
                 }
             }

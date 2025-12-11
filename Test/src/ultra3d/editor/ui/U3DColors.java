@@ -19,4 +19,8 @@ public class U3DColors {
     public static final Color text = Color.lightGray;
     public static final Color text2 = Color.gray;
     public static final Color darkGray = new Color(0x333333);
+    public static final Color simpleGreenOld = new Color(0x8BC24A);
+    public static final Color simpleGreen = new Color(0x67C831);
+    public static final Color lightRed = new Color(0xF76C67);
+    public static final Color simpleRed = new Color(0xEF2A00);
 }

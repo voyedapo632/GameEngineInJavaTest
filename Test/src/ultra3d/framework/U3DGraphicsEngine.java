@@ -220,13 +220,18 @@ public class U3DGraphicsEngine {
         device.setDefaultColor(new Vector4(color.x, color.y, color.z, 1.0f));
     }
 
+    public void setColor(Color color) {
+        device.setDefaultColor(new Vector4(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f));
+    }
+
     public void setColor(Vector4 color) {
         device.setDefaultColor(color);
     }
 
     public void beginRender() {
         // Clear
-        device.clearRenderTarget(new Vector4(0.392f, 0.584f, 0.929f, 1.0f));
+        device.clearRenderTarget(new Vector4(0.764f, 0.878f, 0.933f, 1.0f));
+        // device.clearRenderTarget(new Vector4(0.392f, 0.584f, 0.929f, 1.0f));
         // device.clearRenderTarget(new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
         device.clearDepthStencilView(1.0f);
 

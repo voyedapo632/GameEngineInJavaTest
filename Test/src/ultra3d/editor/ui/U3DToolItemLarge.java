@@ -10,9 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class U3DToolItemLarge extends JButton {
-    protected JLabel icon;
+    public JLabel icon;
     public JLabel textLabel;
-    protected int toolItemId;
+    public int toolItemId;
 
     public U3DToolItemLarge(JLabel icon, String text, int toolItemId) {
         this.icon = icon;

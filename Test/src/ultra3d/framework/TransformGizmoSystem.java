@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import sr4j.Matrix4x4;
+import ultra3d.editor.ui.U3DColors;
 import ultra3d.util.U3DVector3f;
 
 public class TransformGizmoSystem extends U3DComponentSystem {
@@ -60,7 +61,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     model = Matrix4x4.mul(model, Matrix4x4.rotateZ(0.0f));
                     scene.getGraphicsEngine().setModelMatrix(model);
                     scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 1.0f));
-                    scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("TriangulatedCubeTest.obj"));
+                    scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("TriangulatedSphere.obj"));
                     model = Matrix4x4.translation(translation.x  + scale.x, translation.y  - scale.y, translation.z  + scale.z);
                     model = Matrix4x4.mul(model, Matrix4x4.scale(0.1f, 0.1f, 0.1f));
                     model = Matrix4x4.mul(model, Matrix4x4.rotateX(0.0f));
@@ -71,7 +72,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Translate X")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 0.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleRed);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Translation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Translate Y") && !scene.lastHovered.equals("TRANSFORM Translate Z")) {
@@ -85,7 +86,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Translate Y")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 1.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleGreen);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Translation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Translate X") && !scene.lastHovered.equals("TRANSFORM Translate Z")) {
@@ -100,7 +101,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Translate Z")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 0.0f, 1.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.skyBlue);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Translation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Translate X") && !scene.lastHovered.equals("TRANSFORM Translate Y")) {
@@ -119,7 +120,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     model = Matrix4x4.mul(model, Matrix4x4.rotateZ(0.0f));
                     scene.getGraphicsEngine().setModelMatrix(model);
                     scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 1.0f));
-                    scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("TriangulatedCubeTest.obj"));
+                    scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("TriangulatedSphere.obj"));
                     model = Matrix4x4.translation(translation.x  + scale.x, translation.y  - scale.y, translation.z  + scale.z);
                     model = Matrix4x4.mul(model, Matrix4x4.scale(0.1f, 0.1f, 0.1f));
                     model = Matrix4x4.mul(model, Matrix4x4.rotateX(0.0f));
@@ -130,7 +131,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Scale X")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 0.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleRed);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Scale Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Scale Y") && !scene.lastHovered.equals("TRANSFORM Scale Z")) {
@@ -144,7 +145,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Scale Y")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 1.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleGreen);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Scale Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Scale X") && !scene.lastHovered.equals("TRANSFORM Scale Z")) {
@@ -159,7 +160,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Scale Z")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 0.0f, 1.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.skyBlue);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Scale Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Scale X") && !scene.lastHovered.equals("TRANSFORM Scale Y")) {
@@ -180,7 +181,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Rotation X")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 0.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleRed);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Rotation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Rotation Y") && !scene.lastHovered.equals("TRANSFORM Rotation Z")) {
@@ -195,7 +196,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Rotation Y")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 1.0f, 0.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.simpleGreen);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Rotation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Rotation X") && !scene.lastHovered.equals("TRANSFORM Rotation Z")) {
@@ -211,7 +212,7 @@ public class TransformGizmoSystem extends U3DComponentSystem {
                     if (scene.lastHovered.startsWith("TRANSFORM Rotation Z")) {
                         scene.getGraphicsEngine().setColor(new U3DVector3f(1.0f, 1.0f, 0.0f));
                     } else {
-                        scene.getGraphicsEngine().setColor(new U3DVector3f(0.0f, 0.0f, 1.0f));
+                        scene.getGraphicsEngine().setColor(U3DColors.skyBlue);
                     }   scene.getGraphicsEngine().drawOBJModelUnlit(sceneManager.getObjectModel("U3D Rotation Gizmo.obj"));
                     if (scene.getGraphicsEngine().getMessageBox().hasMessage("HOVERED")) {
                         if (!scene.lastHovered.equals("TRANSFORM Rotation X") && !scene.lastHovered.equals("TRANSFORM Rotation Y")) {

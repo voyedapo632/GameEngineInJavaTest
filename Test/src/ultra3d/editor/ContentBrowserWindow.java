@@ -256,7 +256,7 @@ public class ContentBrowserWindow extends U3DDockWindow {
         header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setPreferredSize(new Dimension(35, 35));
         header.setBackground(U3DColors.forground);
-        header.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, U3DColors.background));
+        header.setBorder(BorderFactory.createMatteBorder(0, 2, 2, 2, U3DColors.background));
         getContentPanel().add(header, BorderLayout.NORTH);
 
         headerText = new JLabel(editor.projectPath);

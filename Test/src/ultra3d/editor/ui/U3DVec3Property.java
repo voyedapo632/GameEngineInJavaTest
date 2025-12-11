@@ -1,6 +1,5 @@
 package ultra3d.editor.ui;
 
-import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -16,9 +15,9 @@ public class U3DVec3Property extends U3DPropertyContainer {
     public U3DVec3Property(U3DField<?> field, String name) {
         super(name);
         this.field = field;
-        xValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).x, Color.red);
-        yValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).y, Color.green);
-        zValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).z, Color.blue);
+        xValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).x, U3DColors.simpleRed);
+        yValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).y, U3DColors.simpleGreen);
+        zValue = new U3DNumberInputField(((U3DVector3f)field.getValue()).z, U3DColors.skyBlue);
 
         FocusAdapter fa = new FocusAdapter() {
             @Override

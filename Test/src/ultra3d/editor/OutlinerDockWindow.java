@@ -58,7 +58,13 @@ public class OutlinerDockWindow extends U3DDockWindow {
         treeView.addTreeNode(rootTreeNode);
 
         for (U3DEntity entity : scene.getEntities()) {
-            U3DTreeNode treeNode = new U3DTreeNode(entity.getEntityId(), new JLabel("📦"), entity.getEntityId(), scene.getEntities().indexOf(entity) + 1, entity.getTypeName(), treeView);
+            String name = "Entity";
+
+            if (entity.hasComponent("Static Mesh")) {
+                name = "Static Mesh";
+            }
+
+            U3DTreeNode treeNode = new U3DTreeNode(entity.getEntityId(), new JLabel("📦"), entity.getEntityId(), scene.getEntities().indexOf(entity) + 1, name, treeView);
             treeNode.setParentTreeNode(entity.getParentId());
             
             treeNode.mainButton.addFocusListener(new FocusAdapter() {

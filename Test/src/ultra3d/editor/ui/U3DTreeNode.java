@@ -166,15 +166,21 @@ public class U3DTreeNode extends JPanel {
     public void validateU3DTreeNode() {
         indentSpace.setPreferredSize(new Dimension(15 * indentLevel, 30));
         typeLabel.setForeground(U3DColors.text2);
+        name.setForeground(U3DColors.text);
+        visbilityButton.setForeground(new Color(0, 0, 0, 0));
+        mainButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, activeColor));
 
         if (parentTreeView.selectedTreeNods.contains(this)) {
             if (mainButton.hasFocus()) {
                 activeColor = U3DColors.skyBlue;
-                setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, U3DColors.text2));
+                mainButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, U3DColors.text2));
                 typeLabel.setForeground(U3DColors.text);
+                name.setForeground(U3DColors.white);
+                visbilityButton.setForeground(U3DColors.white);
             } else {
+                visbilityButton.setForeground(U3DColors.text);
                 activeColor = U3DColors.selected;
-                setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
+                //setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
             }
         } else {
             if (index % 2 == 0) {
@@ -183,7 +189,7 @@ public class U3DTreeNode extends JPanel {
                 activeColor = U3DColors.background3;
             }
 
-            setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
+            //setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, activeColor));
         }
 
         if (!treeNodeVisible) {
@@ -232,17 +238,17 @@ public class U3DTreeNode extends JPanel {
         mainButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!parentTreeView.keys.contains(KeyEvent.VK_SHIFT)) {
-                    parentTreeView.selectedTreeNods.clear();
-                }
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (!parentTreeView.keys.contains(KeyEvent.VK_SHIFT)) {
+                        parentTreeView.selectedTreeNods.clear();
+                    }
 
-                if (!parentTreeView.selectedTreeNods.contains(self)) {
-                    parentTreeView.selectedTreeNods.add(self);
-                } else {
-                    parentTreeView.selectedTreeNods.remove(self);
+                    if (!parentTreeView.selectedTreeNods.contains(self)) {
+                        parentTreeView.selectedTreeNods.add(self);
+                    } else {
+                        parentTreeView.selectedTreeNods.remove(self);
+                    }
                 }
-
-                // parentTreeView.validateTreeNodes();
             }
             
             @Override
