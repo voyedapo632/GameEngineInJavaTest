@@ -87,7 +87,7 @@ public class U3DEditor extends GameWindow {
         // Solution explorer
         solutionExplorer = new SolutionExplorerWindow(this);
         solutionExplorer.setPreferredSize(new Dimension(350, 350));
-        centralDockArea.addChildDockWindow(solutionExplorer, U3DDockManeger.DOCK_POSITION_LEFT);
+        outliner.addChildDockWindow(solutionExplorer, U3DDockManeger.DOCK_POSITION_CENTER);
     }
 
     @Override
