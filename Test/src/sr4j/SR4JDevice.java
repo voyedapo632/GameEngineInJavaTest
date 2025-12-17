@@ -376,6 +376,35 @@ public class SR4JDevice {
         drawLine(v1, v3, colors[0], colors[2], textureCoords[0], textureCoords[2]);
     }
 
+    public void drawWireTriangle(Vector4 v1, Vector4 v2, Vector4 v3) {
+        if (v1.z * v2.z * v3.z <= 0) {
+            return;
+        }
+
+        if (v1.x < -1 || v1.x > 1) {
+            return;
+        }
+
+        if (v1.y < -1 || v1.y > 1) {
+            return;
+        }
+
+        v1 = toSceenCoord(v1);
+        v2 = toSceenCoord(v2);
+        v3 = toSceenCoord(v3);
+
+        Vector4 c1 = colors[0];
+        Vector4 c2 = colors[1];
+        Vector4 c3 = colors[2];
+        Vector4 t1 = textureCoords[0];
+        Vector4 t2 = textureCoords[1];
+        Vector4 t3 = textureCoords[2];
+        
+        drawLine(v1, v2, c1, c2, t1, t2);
+        drawLine(v2, v3, c2, c3, t2, t3);
+        drawLine(v3, v1, c3, c1, t3, t1);
+    }
+
     public void drawFillTriangle(Vector4 v1, Vector4 v2, Vector4 v3) {
         if (v1.z * v2.z * v3.z <= 0) {
             return;
@@ -540,6 +569,7 @@ public class SR4JDevice {
 
             // newTriangle2(new Vector4(positions[0]), new Vector4(positions[1]), new Vector4(positions[2]));
             drawFillTriangle(_v1, _v2, _v3);
+
         }
     }
 
