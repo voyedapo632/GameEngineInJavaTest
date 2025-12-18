@@ -326,6 +326,115 @@ public class SR4JDevice {
         return mid;
     }
 
+    int res = 1;
+
+    private void setPixel(int x, int y, float z, Vector4 col) {
+        Vector4 newCol = Vector4.clamp(col);
+        int screenCol = new Color(newCol.x, newCol.y, newCol.z, 1.0f).getRGB();
+        
+        for (int i = 0; i < res + 2; i++) {
+            for (int j = 0; j < res + 2; j++) {
+                int sx = x + i;
+                int sy = y + j;
+
+                if ((sx >= 0 && sx < renderTarget.getWidth()) && (sy >= 0 && sy < renderTarget.getHeight())) {
+                    float depthZ = depthStencilView.get(sx, sy);
+                    boolean condition = false;
+                    
+                    switch (rasterizationState.depthTestMode) {
+                        case SR4JRasterizationState.DEPTH_TEST_NONE -> {
+                            condition = true;
+                        } case SR4JRasterizationState.DEPTH_TEST_ENABLE -> {
+                            condition = z < depthZ;
+                        } case SR4JRasterizationState.DEPTH_TEST_INVERT -> {
+                            condition = z > depthZ;
+                        }
+                    }
+                    
+                    if (condition || depthZ == 1.0f) {
+                        depthStencilView.set(sx, sy, 0, 0, z);
+                        renderTarget.setPixel(sx, sy, screenCol);
+                    }
+                }
+            }
+        }
+    }
+
+    private float triangleArea(Vector4 v1, Vector4 v2, Vector4 v3) {
+        return Math.abs((v1.x * (v2.y - v3.y) + v2.x * (v3.y - v1.y) + v3.x * (v1.y - v2.y)) / 2);
+    }
+
+    private float edge(Vector4 v1, Vector4 v2, Vector4 p) {
+        return (v2.x - v1.x) * (p.y  - v1.y) - (v2.y - v1.y) * (p.x - v1.x);
+    }
+
+    private void barycentricTriangleFill(Vector4 v1, Vector4 v2, Vector4 v3) {
+        if (v1.z > 0) {
+            v1.x /= v1.z;
+            v1.y /= v1.z;
+        }
+        if (v2.z > 0) {
+            v2.x /= v2.z;
+            v2.y /= v2.z;
+        }
+        if (v3.z > 0) {
+            v3.x /= v3.z;
+            v3.y /= v3.z;
+        }
+        
+        if (v1.z * v2.z * v3.z <= 0) {
+            return;
+        }
+
+        if (v1.x < -1 || v1.x > 1) {
+            return;
+        }
+
+        if (v1.y < -1 || v1.y > 1) {
+            return;
+        }
+
+        v1 = toSceenCoord(v1);
+        v2 = toSceenCoord(v2);
+        v3 = toSceenCoord(v3);
+        
+        int minX = (int)min(v1.x, v2.x, v3.x);
+        int minY = (int)min(v1.y, v2.y, v3.y);
+        int maxX = (int)max(v1.x, v2.x, v3.x);
+        int maxY = (int)max(v1.y, v2.y, v3.y);
+
+        float abc = triangleArea(v1, v2, v3);
+        float area = 1.0f / edge(v1, v2, v3);
+
+        for (float x = minX; x < maxX; x += res) {
+            for (float y = minY; y < maxY; y += res) {
+                Vector4 pos = new Vector4(x, y);
+
+                float w1 = edge(v2, v3, pos);
+                float w2 = edge(v3, v1, pos);
+                float w3 = edge(v1, v2, pos);
+    
+                if (w1 <= 1 && w2 <= 1 && w3 <= 1) {
+                    w1 *= area;
+                    w2 *= area;
+                    w3 *= area;
+                    // Calculate color
+                    Vector4 col = Vector4.add(Vector4.add(Vector4.mul(colors[0], w1), Vector4.mul(colors[1], w2)), Vector4.mul(colors[2], w3));
+                    Vector4 tex = Vector4.add(Vector4.add(Vector4.mul(textureCoords[0], w1), Vector4.mul(textureCoords[1], w2)), Vector4.mul(textureCoords[2], w3));
+                    col = Vector4.clamp(col);
+                    tex = Vector4.clamp(tex);
+                    fragPosition = new Vector4(pos);
+                    textureFragPos = new Vector4(tex);
+                    program.callFragmentShaders(col);
+                    
+                    // Display pixel
+                    float zi = v1.z * w1 + v2.z * w2 +  v3.z * w3;
+                    setPixel((int)x, (int)y, zi, fragColor);
+                }
+            }
+        }
+    }
+
     public void drawLine(Vector4 v1, Vector4 v2, Vector4 c1, Vector4 c2, Vector4 t1, Vector4 t2) {
         Vector4 dv = Vector4.sub(v2, v1);
         Vector4 dc = Vector4.sub(c2, c1);
@@ -374,35 +483,6 @@ public class SR4JDevice {
         drawLine(v1, v2, colors[0], colors[1], textureCoords[0], textureCoords[1]);
         drawLine(v2, v3, colors[1], colors[2], textureCoords[1], textureCoords[2]);
         drawLine(v1, v3, colors[0], colors[2], textureCoords[0], textureCoords[2]);
-    }
-
-    public void drawWireTriangle(Vector4 v1, Vector4 v2, Vector4 v3) {
-        if (v1.z * v2.z * v3.z <= 0) {
-            return;
-        }
-
-        if (v1.x < -1 || v1.x > 1) {
-            return;
-        }
-
-        if (v1.y < -1 || v1.y > 1) {
-            return;
-        }
-
-        v1 = toSceenCoord(v1);
-        v2 = toSceenCoord(v2);
-        v3 = toSceenCoord(v3);
-
-        Vector4 c1 = colors[0];
-        Vector4 c2 = colors[1];
-        Vector4 c3 = colors[2];
-        Vector4 t1 = textureCoords[0];
-        Vector4 t2 = textureCoords[1];
-        Vector4 t3 = textureCoords[2];
-        
-        drawLine(v1, v2, c1, c2, t1, t2);
-        drawLine(v2, v3, c2, c3, t2, t3);
-        drawLine(v3, v1, c3, c1, t3, t1);
     }
 
     public void drawFillTriangle(Vector4 v1, Vector4 v2, Vector4 v3) {
@@ -569,7 +649,6 @@ public class SR4JDevice {
 
             // newTriangle2(new Vector4(positions[0]), new Vector4(positions[1]), new Vector4(positions[2]));
             drawFillTriangle(_v1, _v2, _v3);
-
         }
     }
 

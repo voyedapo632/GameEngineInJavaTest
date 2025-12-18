@@ -19,6 +19,7 @@ public class U3DSceneManager {
     protected HashMap<String, SR4JTexture2D> laodedTextures;
     protected HashMap<String, U3DScript> loadedScripts;
     protected HashMap<String, U3DScene> scenes;
+    protected U3DScene lastActiveScene;
 
     public U3DSceneManager() {
         loadedModels = new HashMap<>();
@@ -99,7 +100,7 @@ public class U3DSceneManager {
     } 
 
     public void loadScene(String path) {
-        U3DScene scene = new U3DScene(path);
+        U3DScene scene = new U3DScene(path, this);
 
         String text = "";
         File file = new File(path);
@@ -138,5 +139,13 @@ public class U3DSceneManager {
 
     public void removeScene(String sceneId) {
         scenes.remove(sceneId);
+    }
+
+    public U3DScene getLastActiveScene() {
+        return lastActiveScene;
+    }
+
+    public void setLastActiveScene(U3DScene lastActiveScene) {
+        this.lastActiveScene = lastActiveScene;
     }
 }

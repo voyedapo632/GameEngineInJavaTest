@@ -9,6 +9,8 @@
 package ultra3d.framework;
 
 import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -66,21 +68,34 @@ public class U3DScene extends U3DObject implements U3DEventInterface {
     public boolean cameraMoved = false;
     public boolean mouseDown = false;
     public boolean shouldValidate = false;
+    public int playMode;
     public U3DMessageBox messageBox = new U3DMessageBox();
+    protected U3DSceneManager sceneManager;
 
-    public U3DScene(String filePath) {
+    public U3DScene(String filePath, U3DSceneManager sceneManager) {
         super(filePath);
+        this.sceneManager = sceneManager;
+        playMode = U3DScene.PLAY_MODE_STOPPED;
         lastHovered = "";
         entities = new HashMap<>();
         componentSystems = new HashMap<>();
         selectedEntities = new ArrayList<>();
         copiedEntities = new ArrayList<>();
         viewport = new JPanel();
+        
+        U3DScene self = this;
 
         viewport.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 viewport.requestFocus();
+            }
+        });
+        
+        viewport.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                sceneManager.setLastActiveScene(self);
             }
         });
 
@@ -214,6 +229,12 @@ public class U3DScene extends U3DObject implements U3DEventInterface {
         }
 
         onValidated();
+    }
+
+    public void cutSelectedEntities() {
+        clearCopiedEntities();
+        copySelectedEntities();
+        deleteSelectedEntities();
     }
 
     public void duplicateSelected() {

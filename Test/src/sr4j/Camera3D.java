@@ -1,7 +1,7 @@
 package sr4j;
 
 public class Camera3D {
-    public float cameraSpeed = 0.5f;
+    public float cameraSpeed = 0.3f;
     public float cameraSencitivity = 0.25f;
     public float yaw = -90.0f;
     public float pitch = 0.0f;

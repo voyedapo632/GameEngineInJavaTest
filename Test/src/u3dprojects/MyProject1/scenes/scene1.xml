@@ -1192,6 +1192,25 @@
             <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">fsdfdfsdfsdf.png</Field>
         </Component>
     </Entity>
+    <Entity id="fallingObject" parentId="Root">
+        <Component id="Static Mesh" parentId="fallingObject">
+            <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>
+        </Component>
+        <Component id="Transform" parentId="fallingObject">
+            <Field id="Translation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 56.060005, 56.699997</Field>
+            <Field id="Scale" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">2.0, 2.0, 2.0</Field>
+            <Field id="Rotation" parentId="Transform" type="U3DVector3f" editAccess="ANYWHERE">0.0, 0.0, 0.0</Field>
+        </Component>
+        <Component id="Entity Misc" parentId="fallingObject">
+            <Field id="Is Visible" parentId="Entity Misc" type="Boolean" editAccess="ANYWHERE">true</Field>
+        </Component>
+        <Component id="Texture" parentId="fallingObject">
+            <Field id="Albedo" parentId="Texture" type="String" editAccess="ANYWHERE">fsdfdfsdfsdf.png</Field>
+        </Component>
+        <Component id="Physics" parentId="fallingObject">
+            <Field id="Gravity" parentId="Physics" type="Float" editAccess="ANYWHERE">1.0</Field>
+        </Component>
+    </Entity>
     <Entity id="Zombie1(17)(781)" parentId="Root">
         <Component id="Static Mesh" parentId="Zombie1(17)(781)">
             <Field id="Source" parentId="Static Mesh" type="String" editAccess="ANYWHERE">TriangulatedCubeTest.obj</Field>

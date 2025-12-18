@@ -8,7 +8,7 @@ public class U3DField<T> extends U3DObject {
     public static final String EDIT_ACCESS_CODE = "CODE";
     public static final String EDIT_ACCESS_ANYWHERE = "ANYWHERE";
 
-    public Object value;
+    public T value;
     public String editAccess;
     public String strType;
 
@@ -37,12 +37,12 @@ public class U3DField<T> extends U3DObject {
         return strType;
     }
     
-    public Object getValue() {
+    public T getValue() {
         return value;
     }
 
-     public void setValue(Object newValue) {
-        value = newValue;
+    public void setValue(Object newValue) {
+        value = (T)newValue;
     }
 
     public String getFieldId() {

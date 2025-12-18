@@ -71,6 +71,10 @@ public class EditorCameraSystem extends U3DComponentSystem {
                     scene.duplicateSelected();
                 }
 
+                if (scene.keys.contains(KeyEvent.VK_X) && scene.keys.contains(KeyEvent.VK_CONTROL)) {
+                    scene.cutSelectedEntities();
+                }
+
                 if (scene.keys.contains(KeyEvent.VK_DELETE) || scene.keys.contains(KeyEvent.VK_BACK_SPACE)) {
                     scene.deleteSelectedEntities();
                 }

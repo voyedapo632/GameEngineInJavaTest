@@ -10,6 +10,7 @@ import ultra3d.editor.ui.U3DCheckBoxProperty;
 import ultra3d.editor.ui.U3DColors;
 import ultra3d.editor.ui.U3DComponentPropertyGroup;
 import ultra3d.editor.ui.U3DDockWindow;
+import ultra3d.editor.ui.U3DNumberInputProperty;
 import ultra3d.editor.ui.U3DPropertyViewPanel;
 import ultra3d.editor.ui.U3DStringProperty;
 import ultra3d.editor.ui.U3DVec3Property;
@@ -79,6 +80,9 @@ public class DetailsDockWindow extends U3DDockWindow {
                             propertyGroup.addProperty(p);
                         } else if (field.getValue() instanceof Boolean) {
                             U3DCheckBoxProperty p = new U3DCheckBoxProperty(field, field.getFieldId());
+                            propertyGroup.addProperty(p);
+                        } else if (field.getValue() instanceof Float) {
+                            U3DNumberInputProperty p = new U3DNumberInputProperty(field, field.getFieldId());
                             propertyGroup.addProperty(p);
                         }
                     }

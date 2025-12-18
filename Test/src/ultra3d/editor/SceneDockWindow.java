@@ -32,6 +32,7 @@ import ultra3d.framework.EditorCameraSystem;
 import ultra3d.framework.StaticMeshComponentSystem;
 import ultra3d.framework.TransformGizmoSystem;
 import ultra3d.framework.U3DEventInterface;
+import ultra3d.framework.U3DPhysicsComponentSystem;
 import ultra3d.framework.U3DScene;
 
 public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface {
@@ -77,6 +78,7 @@ public class SceneDockWindow extends U3DDockWindow implements U3DEventInterface 
         localScene.addComponentSystem(new EditorCameraSystem(localScene, editor.sceneManager, editor));
         localScene.addComponentSystem(new StaticMeshComponentSystem(localScene, editor.sceneManager));
         localScene.addComponentSystem(new TransformGizmoSystem(localScene, editor.sceneManager));
+        localScene.addComponentSystem(new U3DPhysicsComponentSystem(localScene, editor.sceneManager));
         
         // Display viewport
         getContentPanel().add(localScene.getViewport(), BorderLayout.CENTER);

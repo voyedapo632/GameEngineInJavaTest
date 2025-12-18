@@ -72,7 +72,7 @@ public class ConsoleWindow extends U3DDockWindow {
         scrollPane.getVerticalScrollBar().setUI(new U3DScrollBarUI());
         scrollPane.getVerticalScrollBar().setBackground(null);
         scrollPane.getHorizontalScrollBar().setUI(new U3DScrollBarUI());
-        scrollPane.setAutoscrolls(false);
+        scrollPane.setAutoscrolls(true);
         scrollPane.setBackground(U3DColors.background2);
         scrollPane.setBorder(null);
         getContentPanel().add(scrollPane, BorderLayout.CENTER);
@@ -83,5 +83,10 @@ public class ConsoleWindow extends U3DDockWindow {
         
         text.setForeground(color);
         lines.add(text, gbc, lines.getComponentCount());
+        lines.validate();
+        lines.updateUI();
+        scrollPane.validate();
+        scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+        updateUI();
     }
 }

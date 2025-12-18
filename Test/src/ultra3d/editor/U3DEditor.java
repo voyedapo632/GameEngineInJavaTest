@@ -1,17 +1,20 @@
 package ultra3d.editor;
 
-import engine4j.util.GameWindow;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import engine4j.util.GameWindow;
 import ultra3d.editor.ui.U3DColors;
 import ultra3d.editor.ui.U3DDockManeger;
 import ultra3d.editor.ui.U3DDockWindow;
+import ultra3d.framework.U3DScene;
 import ultra3d.framework.U3DSceneManager;
 
 public class U3DEditor extends GameWindow {
@@ -66,7 +69,7 @@ public class U3DEditor extends GameWindow {
         
         // Details
         details = new DetailsDockWindow(this);
-        details.setPreferredSize(new Dimension(380, 450));
+        details.setPreferredSize(new Dimension(380, 500));
         outliner.addChildDockWindow(details, U3DDockManeger.DOCK_POSITION_BOTTOM);
 
         // Content browser
@@ -82,7 +85,7 @@ public class U3DEditor extends GameWindow {
         // Console
         console = new ConsoleWindow (this);
         console.setPreferredSize(new Dimension(550, 300));
-        contentBrowser.addChildDockWindow(console, U3DDockManeger.DOCK_POSITION_CENTER);
+        contentBrowser.addChildDockWindow(console, U3DDockManeger.DOCK_POSITION_RIGHT);
 
         // Solution explorer
         solutionExplorer = new SolutionExplorerWindow(this);
@@ -125,6 +128,32 @@ public class U3DEditor extends GameWindow {
 
     @Override
     protected void onDestroy() {
+    }
+
+    public void startPlayTest() {
+        if (sceneManager.getLastActiveScene().playMode == U3DScene.PLAY_MODE_STOPPED) {
+            sceneManager.getLastActiveScene().saveScene();
+            sceneManager.getLastActiveScene().playMode = U3DScene.PLAY_MODE_PLAYING;
+            console.writeLine("Play testing started", Color.yellow);
+        } else if (sceneManager.getLastActiveScene().playMode == U3DScene.PLAY_MODE_PAUSED) {
+            sceneManager.getLastActiveScene().playMode = U3DScene.PLAY_MODE_PLAYING;
+            console.writeLine("Play testing continued", Color.yellow);
+        }
+    }
+    
+    public void pausePlayTest() {
+        if (sceneManager.getLastActiveScene().playMode == U3DScene.PLAY_MODE_PLAYING) {
+            sceneManager.getLastActiveScene().playMode = U3DScene.PLAY_MODE_PAUSED;
+            console.writeLine("Play testing paused", Color.yellow);
+        }
+    }
+    
+    public void endPlayTest() {
+        if (sceneManager.getLastActiveScene().playMode != U3DScene.PLAY_MODE_STOPPED) {
+            sceneManager.getLastActiveScene().playMode = U3DScene.PLAY_MODE_STOPPED;
+            sceneManager.getLastActiveScene().reload();
+            console.writeLine("Play testing ended", Color.yellow);
+        }
     }
 
     public void loadScene(String name) {
